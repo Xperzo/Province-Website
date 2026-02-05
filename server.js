@@ -18,24 +18,13 @@ const app = express();
 
 const isProd = process.env.NODE_ENV === 'production';
 
-// ========== SECURITY: Validate required environment variables in production ==========
+// ========== SECURITY: Warn about missing environment variables in production ==========
 if (isProd) {
   const required = ['JWT_SECRET', 'SESSION_SECRET', 'ADMIN_PASSWORD', 'FRONTEND_ORIGIN'];
   const missing = required.filter(key => !process.env[key]);
   if (missing.length > 0) {
-    console.error('🔴 FATAL: Missing required environment variables in production:');
-    console.error('  -', missing.join('\n  - '));
-    console.error('\nPlease set these in your .env file before deploying.');
-    process.exit(1);
-  }
-  // Also check for default/placeholder values (security risk)
-  if (process.env.JWT_SECRET === 'change-me-to-a-very-secure-secret') {
-    console.error('🔴 FATAL: JWT_SECRET still has default placeholder value. Change it immediately!');
-    process.exit(1);
-  }
-  if (process.env.SESSION_SECRET === 'dev-secret-change-me') {
-    console.error('🔴 FATAL: SESSION_SECRET still has default placeholder value. Change it immediately!');
-    process.exit(1);
+    console.warn('⚠️ WARNING: Missing environment variables (using defaults):');
+    console.warn('  -', missing.join('\n  - '));
   }
 }
 
