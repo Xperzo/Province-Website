@@ -6,8 +6,10 @@ const crypto = require('crypto');
 
 require('dotenv').config();
 
-const DATA_FILE = path.join(__dirname, 'data.json');
-const TMP_FILE = path.join(__dirname, 'data.json.tmp');
+// Use writable directory: environment variable, or /tmp on containerized platforms, or app directory
+const DATA_DIR = process.env.DATA_DIR || (process.env.NODE_ENV === 'production' ? '/tmp' : __dirname);
+const DATA_FILE = path.join(DATA_DIR, 'data.json');
+const TMP_FILE = path.join(DATA_DIR, 'data.json.tmp');
 const DEFAULT_PASSWORD = process.env.ADMIN_PASSWORD || 'admin';
 
 async function fileExists(p){ try { await fs.access(p); return true; } catch(e){ return false; } }
