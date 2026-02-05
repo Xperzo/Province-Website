@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Filière — Détail</title>
+    <link rel="stylesheet" href="css/style3.css">
+    <link rel="stylesheet" href="css/style2.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/head-foot.js"></script>
+  </head>
+
+  <body>
+
+<a href="Formations.html" class="back-arrow" title="Retour aux Formations">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+       fill="none" stroke="currentColor" stroke-width="2" 
+       stroke-linecap="round" stroke-linejoin="round">
+    <path d="M15 18l-6-6 6-6"></path>
+  </svg>
+  <span>Retour</span>
+</a>
+
+<main id="detail"></main>
+
+<!-- ================= DONNÉES ================= -->
+<script src="js/data.js"></script>
+<script src="js/adult.js"></script>
+
+<!-- ===================================================
+     🔥 AJOUT CRITIQUE : FORMATIONS ADMIN
+     (NE CASSE RIEN – AVANT detail.js)
+=================================================== -->
+<script>
+(function () {
+  const adminFormations =
+    JSON.parse(localStorage.getItem("ADMIN_FORMATIONS")) || [];
+
+  if (!adminFormations.length) return;
+  if (!window.FILIERES) return;
+
+  const slugs = new Set(window.FILIERES.map(f => f.slug));
+  adminFormations.forEach(f => {
+    if (!slugs.has(f.slug)) {
+      window.FILIERES.push(f);
+    }
+  });
+})();
+</script>
+
+<!-- ===================================================
+     🔥 AJOUT CRITIQUE : IMAGES FILIÈRES ADMIN
+=================================================== -->
+<script>
+(function () {
+  const adminImages =
+    JSON.parse(localStorage.getItem("ADMIN_FILIERE_IMAGES")) || {};
+
+  window.FILIERE_IMAGES = window.FILIERE_IMAGES || {};
+  Object.assign(window.FILIERE_IMAGES, adminImages);
+})();
+</script>
+
+<!-- ================= LOGIQUE EXISTANTE ================= -->
+<script src="js/details2.js"></script>
+<script src="js/detail.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- ================= CHATBOT (INCHANGÉ) ================= -->
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const btn = document.querySelector('.back-to-top');
+  if (!btn) return;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 150) {
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  });
+
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = 'offre de formation.html';
+  });
+});
+</script>
+
+</body>
+</html>

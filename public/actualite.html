@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Actualités - OFPPT Settat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <link rel="stylesheet" href="css/actualites.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+</head>
+<body data-page="detail">
+
+  <div class="app-container">
+    <main class="content">
+      <section class="actu-detail-wrapper">
+        <div class="actu-breadcrumb">
+          <a href="actualites.html">Actualités & événements</a> · Détail de l'actualité
+        </div>
+
+        <!-- Carte détail -->
+        <article class="actu-detail-card">
+          <div class="actu-detail-main-image">
+            <img id="detailImage" src="" alt="Image actualité">
+          </div>
+
+          <div class="actu-detail-body">
+            <div class="actu-detail-meta-bar">
+              <div class="actu-detail-meta-left">
+                <span id="detailType" class="badge"></span>
+                <span id="detailDate" class="modal-date"></span>
+              </div>
+            </div>
+
+            <h1 id="detailTitle" class="actu-detail-title"></h1>
+            <p id="detailResume" class="actu-detail-resume"></p>
+
+            <div id="detailContenu" class="actu-detail-text"></div>
+
+            <!-- Galerie médias (images / vidéos / YouTube) -->
+            <div class="actu-gallery-section">
+              <h2 class="actu-gallery-title">Galerie photos & vidéos</h2>
+              <div id="detailMedias" class="gallery-horizontal"></div>
+            </div>
+
+            <div class="actu-detail-back">
+              <a href="actualites.html" id="backToListBtn" class="btn primary-btn">
+                ← Retour aux actualités
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <p id="detailNotFound" class="empty-message" style="display:none;">
+          Actualité introuvable ou supprimée.
+        </p>
+      </section>
+    </main>
+  </div>
+
+  <!-- Scripts existants -->
+  <script src="js/api.js"></script>
+  <script src="js/storage-shim.js"></script>
+  <script src="js/actualites.js"></script>
+  <script src="js/head-foot.js"></script>
+
+  <!-- >>>>>>>>>> SCRIPT DÉTAIL À PARTIR DU SLUG (NOUVEAU) <<<<<<<<<< -->
+  <script>
+    function getQueryParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+
+    function isImageUrl(url) {
+      return /\.(jpe?g|png|gif|webp|svg)$/i.test(url);
+    }
+
+    function isVideoUrl(url) {
+      return /\.(mp4|webm|ogg)$/i.test(url);
+    }
+
+    function isYouTubeUrl(url) {
+      return /youtube\.com\/watch\?v=|youtu\.be\//i.test(url);
+    }
+
+    function convertToYouTubeEmbed(url) {
+      const reg = /(?:v=|\/)([0-9A-Za-z_-]{11})/;
+      const match = url.match(reg);
+      if (match && match[1]) {
+        return `https://www.youtube.com/embed/${match[1]}`;
+      }
+      return url;
+    }
+
+    document.addEventListener('DOMContentLoaded', async function () {
+      const slug = getQueryParam('slug');
+      const notFound = document.getElementById('detailNotFound');
+
+      if (!slug) {
+        if (notFound) notFound.style.display = 'block';
+        return;
+      }
+
+      try {
+        // Récupère les actualités depuis l'API (comme sur actualites.html)
+        const res = await API.fetchActualites(50);
+        const list = res.actualites || [];
+
+        // Cherche l'actu correspondant au slug
+        const actu = list.find(a => a.slug === slug);
+        if (!actu) {
+          if (notFound) notFound.style.display = 'block';
+          return;
+        }
+
+        // Références DOM
+        const imageEl   = document.getElementById('detailImage');
+        const typeEl    = document.getElementById('detailType');
+        const dateEl    = document.getElementById('detailDate');
+        const titleEl   = document.getElementById('detailTitle');
+        const resumeEl  = document.getElementById('detailResume');
+        const contenuEl = document.getElementById('detailContenu');
+        const mediasEl  = document.getElementById('detailMedias');
+
+        // Image principale
+        if (imageEl) {
+          imageEl.src = actu.mainImage || 'https://via.placeholder.com/1200x340/1d4ed8/ffffff?text=Actualit%C3%A9';
+          imageEl.setAttribute('data-zoomable', 'true');
+        }
+
+        // Métadonnées
+        if (typeEl)  typeEl.textContent  = actu.type || 'Actualité';
+        if (dateEl)  dateEl.textContent  = actu.date || '';
+        if (titleEl) titleEl.textContent = actu.title || '';
+        if (resumeEl) resumeEl.textContent = actu.summary || '';
+        if (contenuEl) contenuEl.textContent = actu.content || '';
+
+        // Galerie médias
+        if (mediasEl) {
+          mediasEl.innerHTML = '';
+          (actu.medias || []).forEach((url) => {
+            const wrapper = document.createElement('div');
+
+            if (isImageUrl(url)) {
+              const img = document.createElement('img');
+              img.src = url;
+              img.alt = 'Image actualité';
+              img.setAttribute('data-zoomable', 'true');
+              wrapper.appendChild(img);
+            } else if (isVideoUrl(url)) {
+              const video = document.createElement('video');
+              video.src = url;
+              video.controls = true;
+              wrapper.appendChild(video);
+            } else if (isYouTubeUrl(url)) {
+              const iframe = document.createElement('iframe');
+              iframe.src = convertToYouTubeEmbed(url);
+              iframe.allowFullscreen = true;
+              iframe.frameBorder = '0';
+              wrapper.appendChild(iframe);
+            } else {
+              const link = document.createElement('a');
+              link.href = url;
+              link.target = '_blank';
+              link.textContent = url;
+              wrapper.appendChild(link);
+            }
+
+            mediasEl.appendChild(wrapper);
+          });
+        }
+
+        if (notFound) notFound.style.display = 'none';
+      } catch (e) {
+        if (notFound) notFound.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

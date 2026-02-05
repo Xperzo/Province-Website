@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - OFPPT Province de Settat</title>
+    <link rel="stylesheet" href="css/contact.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="js/head-foot.js"></script>
+
+</head>
+<body>
+
+
+    <main class="contact-main">
+        <!-- Section Résumé OFPPT Settat -->
+        <section class="resume-section">
+            <div class="container">
+                <div class="section-header">
+                    <h1 class="section-title" style="color: var(--dark-blue);">OFPPT Province de Settat</h1>
+                    <div class="section-underline"></div>
+                </div>
+                
+                <div class="resume-content">
+                    <div class="resume-card">
+                        <div class="resume-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="resume-text">
+                            <h3>Notre Mission</h3>
+                            <p>L'OFPPT Settat œuvre pour le développement des compétences et l'employabilité des jeunes de la province à travers des formations professionnelles qualifiantes adaptées aux besoins du marché du travail.</p>
+                        </div>
+                    </div>
+
+                    <div class="resume-card">
+                        <div class="resume-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <div class="resume-text">
+                            <h3>Réseaux d'Établissements</h3>
+                            <p>Notre province compte plus de <strong>9 établissements de formation</strong> répartis stratégiquement pour couvrir l'ensemble du territoire et offrir plus de <strong>60+ filières de formation</strong> dans divers secteurs porteurs.</p>
+                        </div>
+                    </div>
+
+                    <div class="resume-card">
+                        <div class="resume-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="resume-text">
+                            <h3>Impact Régional</h3>
+                            <p>Chaque année, nous formons <strong>plus de 9,000 stagiaires</strong> et collaborons avec <strong>30 entreprises partenaires</strong> pour assurer l'insertion professionnelle de nos diplômés.</p>
+                        </div>
+                    </div>
+
+                    <div class="resume-card">
+                        <div class="resume-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="resume-text">
+                            <h3>Vision Globale</h3>
+                            <p>Développer l'excellence professionnelle, renforcer l'entrepreneuriat des jeunes, et positionner Settat comme pôle de référence en matière de formation professionnelle au niveau régional.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Formulaire de Contact -->
+        <section class="form-section">
+            <div class="container">
+                <div class="form-container">
+                    <div class="form-header">
+                        <h2>Formulaire de Contact</h2>
+                        <p>Vous rencontrez un problème ? Notre équipe est là pour vous aider</p>
+                    </div>
+
+                    <form id="contact-form" class="contact-form">
+                        <div class="form-group">
+                            <label for="fullname">Nom Complet *</label>
+                            <input type="text" id="fullname" name="fullname" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Adresse Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Téléphone</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="establishment">Établissement OFPPT *</label>
+                            <select id="establishment" name="establishment" required>
+                                <option value="">Sélectionnez votre établissement</option>
+                                <option value="ista-ntic-2">ISTA NTIC 2 Settat</option>
+                                <option value="ista-1">ISTA 1 Settat</option>
+                                <option value="ita-rahal">ITA Rahal El Meskini Settat</option>
+                                <option value="centre-mixte">Centre Mixte de Formation Professionnelle Settat</option>
+                                <option value="cqp-sidi">CQP Sidi Abdelkrim (OFPPT) Settat</option>
+                                <option value="emfmbtp">École Mohammed VI des Métiers du BTP (Settat)</option>
+                                <option value="ista-benahmed">ISTA Ben Ahmed</option>
+                                <option value="cqp-oulad">CQP Oulad M'rah (OFPPT)</option>
+                                <option value="ista-elborouj">ISTA El Borouj</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="problem-type">Type de Problème *</label>
+                            <select id="problem-type" name="problem-type" required>
+                                <option value="">Sélectionnez le type de problème</option>
+                                <option value="inscription">Inscription</option>
+                                <option value="scolarite">Scolarité</option>
+                                <option value="notes">Notes/Évaluations</option>
+                                <option value="stage">Stage</option>
+                                <option value="transport">Transport</option>
+                                <option value="bourse">Bourse</option>
+                                <option value="formation">Formation</option>
+                                <option value="administratif">Administratif</option>
+                                <option value="technique">Technique (plateforme, etc.)</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Sujet *</label>
+                            <input type="text" id="subject" name="subject" required placeholder="Ex: Problème d'inscription en ligne">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Description du Problème *</label>
+                            <textarea id="message" name="message" rows="6" required placeholder="Décrivez votre problème en détail..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" required>
+                                <span class="checkmark"></span>
+                                J'accepte que mes informations soient traitées par l'OFPPT Settat
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary submit-btn">
+                            <i class="fas fa-paper-plane"></i>
+                            Envoyer ma demande
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Carte des Établissements -->
+        <section class="map-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">NOTRE CARTE DE la Province de Settat</h2>
+                   
+                </div>
+                
+                <!-- Carte Google Maps montrant Settat, Ben Ahmed et El Borouj -->
+                <div class="map-container">
+                    <iframe 
+                        id="settat-map"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d212478.28490123456!2d-7.8!3d32.95!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda76b8f449a1f43%3A0x7d9b9c9b9c9b9c9b!2sProvince%20de%20Settat%2C%20Morocco!5e0!3m2!1sen!2sma!4v1234567890123!5m2!1sen!2sma&t=k" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+                
+
+            </div>
+        </section>
+    </main>
+   
+<script>
+function openLogin() {
+  window.location.href = "/login-formations.html";
+}
+</script>
+
+
+    <!-- Scripts -->
+    <script>
+        // Gestion du formulaire de contact
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Récupérer les données du formulaire
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Construire l'email
+            const subject = `[OFPPT Settat] ${data.subject} - ${data['problem-type']}`;
+            const body = `
+Nom: ${data.fullname}
+Email: ${data.email}
+Téléphone: ${data.phone || 'Non renseigné'}
+Établissement: ${data.establishment || 'Non spécifié'}
+Type de problème: ${data['problem-type']}
+
+Message:
+${data.message}
+            `.trim();
+            
+            // REMARQUE: Remplacez l'email ci-dessous par l'email réel de l'OFPPT Settat
+            const mailtoLink = `mailto:contact.settat@ofppt.ma?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Ouvrir le client email
+            window.location.href = mailtoLink;
+            
+            // Afficher un message de confirmation
+            alert('Votre message a été préparé. Veuillez vérifier votre client email pour l\'envoyer.');
+            
+            // Réinitialiser le formulaire
+            this.reset();
+        });
+    </script>
+</body>
+</html>

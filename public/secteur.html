@@ -1,0 +1,928 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Secteur – OFPPT Province de Settat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- META dynamiques -->
+    <meta name="description" content="" id="meta-description">
+    <meta property="og:title" content="" id="og-title">
+    <meta property="og:description" content="" id="og-description">
+    <meta property="og:image" content="" id="og-image">
+
+    <!-- Feuilles de style existantes -->
+    <link rel="stylesheet" href="css/offre de formation.css" />
+    <link rel="stylesheet" href="css/style2.css" />
+    <script src="js/head-foot.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+ <style>
+  :root {
+    --primary-green: #2d9f4e;
+    --primary-blue: #1976d2;
+    --light-blue: #e3f2fd;
+    --dark-blue: #0d47a1;
+    --text-dark: #2c3e50;
+    --text-light: #546e7a;
+    --white: #ffffff;
+    --gray-light: #f5f5f5;
+    --gray-medium: #e0e0e0;
+  }
+  
+  /* ===== Styles page secteur ===== */
+  body {
+    background: #f4f7fb;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  .sector-page {
+    background: #f4f7fb;
+  }
+
+  /* HERO simple et clair */
+  .sector-hero-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 30px auto 50px;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(15,56,92,0.15);
+  }
+
+  .sector-hero {
+    height: 380px; /* Légèrement plus grand */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 50px 40px;
+  }
+  
+  .sector-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+  }
+  
+  .sector-hero {
+    animation: heroZoom 6s ease-in-out forwards;
+  }
+
+  @keyframes heroZoom {
+    from { transform: scale(1.05); }
+    to { transform: scale(1); }
+  }
+
+  .sector-hero-inner {
+    position: relative;
+    color: #ffffff;
+    max-width: 800px;
+  }
+
+  .sector-hero-tag {
+    display: inline-block;
+    padding: 8px 20px;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(5px);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+
+  .sector-hero-title {
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 10px;
+    line-height: 1.1;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+
+  .sector-hero-subtitle {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.95);
+    margin: 0;
+  }
+
+  .sector-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* Sections */
+  .sector-section {
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 30px rgba(15,56,92,0.08);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sector-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #0b4da2, #1abc9c);
+  }
+
+  .section-title {
+    text-align: center;
+    margin: 60px auto 40px;
+  }
+
+  .section-title i {
+    font-size: 36px;
+    color: #2ecc71;
+    margin-bottom: 15px;
+    display: block;
+  }
+
+  .section-title h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #0B4DA2;
+    margin: 10px 0;
+  }
+
+  .section-title .underline {
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #0b4da2, #1abc9c);
+    margin: 15px auto 0;
+    border-radius: 5px;
+  }
+
+  /* vidéo */
+  .sector-video-wrapper {
+    border-radius: 18px;
+    overflow: hidden;
+    background: #edf2ff;
+    border: 1px solid rgba(11, 77, 162, 0.1);
+  }
+
+  .sector-video-placeholder {
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 30px;
+  }
+
+  .sector-video-placeholder i {
+    font-size: 3.5rem;
+    color: #0b4da2;
+  }
+
+  .sector-video-placeholder p {
+    color: #4b5563;
+    font-size: 1.1rem;
+  }
+  
+  .sector-video-player {
+    width: 100%;
+    max-height: 450px;
+    display: block;
+    border-radius: 18px;
+    outline: none;
+  }
+
+  /* chiffres clés */
+  .sector-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+  }
+
+  .sector-stat {
+    position: relative;
+    background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 10px 25px rgba(15, 56, 92, 0.1);
+    border: 1px solid rgba(11, 77, 162, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .sector-stat:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(15, 56, 92, 0.15);
+  }
+
+  .sector-stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    background: #fff7e6;
+    color: #f59e0b;
+    font-size: 1.5rem;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+  }
+
+  .sector-stat h3 {
+    margin: 0 0 10px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #0b4da2;
+  }
+
+  .sector-stat p {
+    margin: 0;
+    font-size: 1rem;
+    color: #4b5563;
+    line-height: 1.6;
+  }
+
+  /* bouton brochure */
+  .sector-brochure-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 25px;
+    padding: 12px 30px;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .sector-brochure-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(245, 158, 11, 0.4);
+    background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+  }
+
+  .sector-brochure-btn i {
+    font-size: 1.2rem;
+  }
+
+  /* compétences - animation simple */
+  .sector-skills-line {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 30px;
+    background: linear-gradient(135deg, #f8fbff 0%, #f0f7ff 100%);
+    border-radius: 20px;
+    border: 1px solid rgba(11, 77, 162, 0.1);
+  }
+
+  .sector-skill {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 25px;
+    border-radius: 50px;
+    background: #ffffff;
+    border: 1px solid rgba(11, 77, 162, 0.15);
+    box-shadow: 0 8px 20px rgba(15, 56, 92, 0.1);
+    cursor: default;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+  }
+
+  /* Animation simple d'entrée */
+  .sector-skill {
+    animation: skillAppear 0.6s ease forwards;
+  }
+
+  @keyframes skillAppear {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Délais pour chaque compétence */
+  .sector-skills-line .sector-skill:nth-child(1) { animation-delay: 0.1s; }
+  .sector-skills-line .sector-skill:nth-child(2) { animation-delay: 0.2s; }
+  .sector-skills-line .sector-skill:nth-child(3) { animation-delay: 0.3s; }
+  .sector-skills-line .sector-skill:nth-child(4) { animation-delay: 0.4s; }
+  .sector-skills-line .sector-skill:nth-child(5) { animation-delay: 0.5s; }
+
+  .sector-skill:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(15, 56, 92, 0.2);
+    border-color: rgba(26, 188, 156, 0.5);
+    background: linear-gradient(135deg, #ffffff, #f0f9ff);
+  }
+
+  .sector-skill-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e6f1ff 0%, #d4e7ff 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #0b4da2;
+    transition: all 0.3s ease;
+  }
+
+  .sector-skill:hover .sector-skill-icon {
+    background: #0b4da2;
+    color: white;
+    transform: scale(1.1);
+  }
+
+  .sector-skill p {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1f2933;
+    white-space: nowrap;
+  }
+
+  /* filières */
+  .sector-filieres-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 35px;
+  }
+
+  .sector-filiere-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 35px 30px;
+    text-align: center;
+    border: 1px solid rgba(0, 92, 185, 0.1);
+    box-shadow: 0 10px 30px rgba(20, 64, 121, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sector-filiere-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(90deg, #0b4da2, #1abc9c);
+  }
+
+  .sector-filiere-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(20, 64, 121, 0.15);
+  }
+
+  .sector-filiere-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 20px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    background: linear-gradient(145deg, #e6f1ff, #ffffff);
+    color: #0b6ce8;
+    border: 2px solid rgba(11, 108, 230, 0.15);
+    box-shadow:
+      inset 0 0 12px rgba(0, 98, 255, 0.08),
+      0 6px 18px rgba(11, 108, 230, 0.15);
+    transition: all 0.3s ease;
+  }
+
+  .sector-filiere-card:hover .sector-filiere-icon {
+    background: #0b6ce8;
+    color: white;
+    border-color: #0b6ce8;
+    transform: scale(1.1);
+  }
+
+  .sector-filiere-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #0b3c80;
+    margin: 0 0 10px;
+  }
+
+  .sector-filiere-label {
+    font-size: 1.1rem;
+    color: #4b5b6a;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  /* back button simple */
+  .back-arrow {
+    display: inline-flex;
+    position: fixed;
+    align-items: center;
+    gap: 8px;
+    margin: 20px 0 20px 30px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #0073b1, #00c4cc);
+    color: #fff;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all .3s ease;
+    z-index: 9999;
+  }
+  
+  .back-arrow svg {
+    width: 20px;
+    height: 20px;
+    stroke: #fff;
+  }
+  
+  .back-arrow:hover {
+    background: linear-gradient(135deg, #009cd4, #00d9b8);
+    transform: translateX(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  }
+
+  .sector-not-found {
+    max-width: 700px;
+    margin: 80px auto;
+    text-align: center;
+    padding: 40px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+
+  .sector-not-found h1 {
+    color: #0b4da2;
+    margin-bottom: 20px;
+  }
+
+  .sector-not-found p {
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .sector-not-found a {
+    color: #0b82ff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .sector-not-found a:hover {
+    text-decoration: underline;
+  }
+
+  /* responsive */
+  @media (max-width: 768px) {
+    .sector-hero-container {
+      margin: 20px auto 30px;
+      border-radius: 15px;
+    }
+
+    .sector-hero {
+      height: 300px;
+      padding: 0 25px 30px;
+    }
+
+    .sector-hero-title {
+      font-size: 2rem;
+    }
+
+    .sector-hero-subtitle {
+      font-size: 1rem;
+    }
+
+    .sector-container {
+      padding: 0 15px 40px;
+    }
+
+    .sector-section {
+      padding: 25px;
+      margin-bottom: 20px;
+      border-radius: 15px;
+    }
+
+    .section-title {
+      margin: 40px auto 30px;
+    }
+
+    .section-title h2 {
+      font-size: 1.8rem;
+    }
+
+    .section-title i {
+      font-size: 28px;
+    }
+
+    .sector-stats-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .sector-stat {
+      padding: 20px;
+    }
+
+    .sector-stat h3 {
+      font-size: 1.6rem;
+    }
+
+    .sector-brochure-btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .sector-skills-line {
+      padding: 25px;
+      gap: 15px;
+    }
+
+    .sector-skill {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .sector-skill p {
+      white-space: normal;
+      text-align: center;
+    }
+
+    .sector-filieres-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .sector-filiere-card {
+      padding: 25px;
+    }
+
+    .sector-filiere-number {
+      font-size: 2rem;
+    }
+
+    .back-arrow {
+      margin: 15px 0 15px 20px;
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+  }
+</style>
+  </head>
+  <body>
+
+    <a href="offre de formation.html#secteurs-settat" class="back-arrow" title="Retour aux Formations">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2" 
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 18l-6-6 6-6"></path>
+      </svg>
+      <span>Retour</span>
+    </a>
+
+    <!-- Boutons d'administration -->
+  
+
+    <main class="sector-page">
+      
+      <!-- HERO -->
+      <div class="sector-hero-container">
+        <section class="sector-hero" id="sector-hero">
+          <div class="sector-hero-overlay"></div>
+          <div class="sector-hero-inner">
+            <div class="sector-hero-tag">Secteur</div>
+            <h1 class="sector-hero-title" id="sector-title"></h1>
+            <p class="sector-hero-subtitle" id="sector-subtitle"></p>
+          </div>
+        </section>
+      </div>
+      
+      <!-- Contenu chargé dynamiquement -->
+      <div class="sector-container" id="sector-container" hidden>
+        <!-- Présentation -->
+        <h4 class="section-title">Présentation du secteur</h4>
+        <section class="sector-section">
+          <div id="sector-presentation"></div>
+        </section>
+
+        <!-- Vidéo -->
+        <h4 class="section-title">Vidéo du secteur</h4>
+        <section class="sector-section">
+          <div class="sector-video-wrapper" id="sector-video-wrapper">
+            <!-- sera rempli par JS -->
+          </div>
+        </section>
+
+        <!-- Chiffres clés -->
+        <h4 class="section-title" id="sector-stats-title">Chiffres clés du secteur</h4>
+        <section class="sector-section">
+          <div class="sector-stats-grid" id="sector-stats"></div>
+          <a href="#" class="sector-brochure-btn" id="sector-brochure" target="_blank" rel="noopener">
+            <i class="fa-solid fa-download"></i>
+            Télécharger la brochure
+          </a>
+        </section>
+
+        <!-- Compétences -->
+        <h4 class="section-title">Les compétences les plus recherchées par les employeurs</h4>
+        <section class="sector-section">
+          <div class="sector-skills-line" id="sector-skills"></div>
+        </section>
+
+        <!-- Filières -->
+        <h4 class="section-title" id="sector-filieres-title">Filières de formation</h4>
+        <section class="sector-section">
+          <p id="sector-filieres-intro"></p>
+          <div class="sector-filieres-grid">
+            <div class="sector-filiere-card">
+              <div class="sector-filiere-icon"><i class="fa-solid fa-scroll"></i></div>
+              <p class="sector-filiere-number" id="sector-filieres-count"></p>
+              <p class="sector-filiere-label">Filières dans ce secteur</p>
+            </div>
+
+            <div class="sector-filiere-card">
+              <div class="sector-filiere-icon"><i class="fa-solid fa-school"></i></div>
+              <p class="sector-filiere-number" id="sector-etabs-count"></p>
+              <p class="sector-filiere-label">Établissements couvrant ce secteur</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 404 secteur inconnu -->
+      <section class="sector-not-found" id="sector-not-found" hidden>
+        <h1>Secteur introuvable</h1>
+        <p>
+          Le secteur demandé n'existe pas ou le lien est incorrect.<br />
+          Retournez à la liste des secteurs pour choisir un secteur valide.
+        </p>
+        <p>
+          <a href="offre de formation.html">← Retour à la liste des secteurs</a>
+        </p>
+      </section>
+    </main>
+
+    <!-- Script principal -->
+    <script src="secteurs-api.js"></script>
+    <script>
+      // Utiliser l'API des secteurs pour charger les données
+      document.addEventListener('DOMContentLoaded', function() {
+        // Récupérer le slug depuis l'URL
+        function getSlug() {
+          const params = new URLSearchParams(window.location.search);
+          return params.get("slug");
+        }
+        
+        const slug = getSlug();
+        
+        if (!slug) {
+          document.getElementById("sector-not-found").hidden = false;
+          return;
+        }
+        
+        // Charger le secteur depuis l'API
+        if (window.SecteursAPI) {
+          const secteur = window.SecteursAPI.getSecteurBySlug(slug);
+          
+          if (!secteur) {
+            document.getElementById("sector-not-found").hidden = false;
+            return;
+          }
+          
+          // Afficher le secteur
+          renderSector(secteur);
+          
+          // Gestion des boutons admin
+          setupAdminButtons(slug, secteur);
+        } else {
+          // Fallback si l'API n'est pas chargée
+          document.getElementById("sector-not-found").innerHTML = `
+            <h1>Erreur de chargement</h1>
+            <p>Impossible de charger les données du secteur.</p>
+            <p><a href="offre de formation.html">← Retour à la liste</a></p>
+          `;
+          document.getElementById("sector-not-found").hidden = false;
+        }
+        
+        // Fonction pour afficher un secteur
+        function renderSector(secteur) {
+          // Hero
+          const hero = document.getElementById("sector-hero");
+          const titleEl = document.getElementById("sector-title");
+          const subtitleEl = document.getElementById("sector-subtitle");
+          const container = document.getElementById("sector-container");
+          const notFound = document.getElementById("sector-not-found");
+          
+          // Titre de la page
+          document.title = secteur.titre + " – OFPPT Province de Settat";
+          
+          // Meta tags
+          document.getElementById("meta-description").setAttribute("content", secteur.resume || "");
+          document.getElementById("og-title").setAttribute("content", secteur.titre);
+          document.getElementById("og-description").setAttribute("content", secteur.resume || "");
+          document.getElementById("og-image").setAttribute("content", secteur.heroImage || secteur.image || "");
+          
+          // Hero
+          hero.style.backgroundImage = "url('" + (secteur.heroImage || secteur.image) + "')";
+          titleEl.textContent = secteur.titre;
+          subtitleEl.textContent = "OFPPT – Province de Settat";
+          
+          // Présentation
+          const presContainer = document.getElementById("sector-presentation");
+          presContainer.innerHTML = "";
+          
+          if (secteur.presentation && Array.isArray(secteur.presentation)) {
+            secteur.presentation.forEach(p => {
+              const pe = document.createElement("p");
+              pe.textContent = p;
+              presContainer.appendChild(pe);
+            });
+          } else if (secteur.resume) {
+            const pe = document.createElement("p");
+            pe.textContent = secteur.resume;
+            presContainer.appendChild(pe);
+          }
+          
+          // Vidéo
+          const videoWrapper = document.getElementById("sector-video-wrapper");
+          if (secteur.video) {
+            if (secteur.video.includes('youtube.com') || secteur.video.includes('youtu.be')) {
+              // URL YouTube
+              const videoId = secteur.video.includes('youtube.com') 
+                ? secteur.video.split('v=')[1]?.split('&')[0]
+                : secteur.video.split('youtu.be/')[1];
+              
+              videoWrapper.innerHTML = `
+                <div class="sector-video-placeholder">
+                  <iframe 
+                    width="100%" 
+                    height="400" 
+                    src="https://www.youtube.com/embed/${videoId}" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                  </iframe>
+                </div>
+              `;
+            } else {
+              // Vidéo locale
+              videoWrapper.innerHTML = `
+                <div class="sector-video-placeholder">
+                  <video class="sector-video-player" controls>
+                    <source src="${secteur.video}" type="video/mp4">
+                    Votre navigateur ne supporte pas la lecture vidéo.
+                  </video>
+                </div>
+              `;
+            }
+          } else {
+            videoWrapper.innerHTML = `
+              <div class="sector-video-placeholder">
+                <i class="fas fa-video-slash"></i>
+                <p>Aucune vidéo disponible pour ce secteur</p>
+              </div>
+            `;
+          }
+          
+          // Stats
+          const statsContainer = document.getElementById("sector-stats");
+          statsContainer.innerHTML = "";
+          
+          if (secteur.stats && secteur.stats.length > 0) {
+            document.getElementById("sector-stats-title").textContent = "Chiffres clés du secteur";
+            secteur.stats.forEach(stat => {
+              const art = document.createElement("article");
+              art.className = "sector-stat";
+              art.innerHTML = `
+                <div class="sector-stat-icon"><i class="fa-solid ${stat.icon}"></i></div>
+                <h3>${stat.value}</h3>
+                <p>${stat.label}</p>
+              `;
+              statsContainer.appendChild(art);
+            });
+          } else {
+            document.getElementById("sector-stats-title").style.display = 'none';
+          }
+          
+          // Brochure
+          const brochure = document.getElementById("sector-brochure");
+          brochure.href = secteur.brochureUrl || "#";
+          if (!secteur.brochureUrl || secteur.brochureUrl === "#") {
+            brochure.style.display = 'none';
+          }
+          
+          // Skills
+          const skillsContainer = document.getElementById("sector-skills");
+          skillsContainer.innerHTML = "";
+          
+          if (secteur.skills && secteur.skills.length > 0) {
+            secteur.skills.forEach((skill, index) => {
+              if (index > 0) {
+                const sep = document.createElement("span");
+                sep.className = "sector-skill-sep";
+                skillsContainer.appendChild(sep);
+              }
+              const sk = document.createElement("div");
+              sk.className = "sector-skill";
+              sk.innerHTML = `
+                <div class="sector-skill-icon"><i class="fa-solid ${skill.icon}"></i></div>
+                <p>${skill.label}</p>
+              `;
+              skillsContainer.appendChild(sk);
+            });
+          }
+          
+          // Filières
+          document.getElementById("sector-filieres-title").textContent = "Filières de formation";
+          document.getElementById("sector-filieres-intro").textContent = secteur.filieresIntro || "Découvrez les formations disponibles dans ce secteur.";
+          document.getElementById("sector-filieres-count").textContent = secteur.filieresCount || "1";
+          document.getElementById("sector-etabs-count").textContent = secteur.etabsCount || "1";
+          
+          // Afficher le contenu
+          container.hidden = false;
+          notFound.hidden = true;
+        }
+        
+        // Configuration des boutons admin
+        function setupAdminButtons(slug, secteur) {
+          const adminActions = document.getElementById('admin-actions');
+          
+          if (adminActions) {
+            // Afficher les boutons
+            adminActions.style.display = 'block';
+            
+            // Bouton Modifier
+            const btnEdit = document.getElementById('btn-edit-secteur');
+            if (btnEdit) {
+              btnEdit.onclick = function() {
+                window.open(`admin-secteurs.html?edit=${slug}`, '_blank');
+              };
+            }
+            
+            // Bouton Supprimer
+            const btnDelete = document.getElementById('btn-delete-secteur');
+            if (btnDelete) {
+              btnDelete.onclick = function() {
+                if (confirm(`Êtes-vous sûr de vouloir supprimer le secteur "${secteur.titre}" ?`)) {
+                  // Supprimer du localStorage
+                  window.SecteursAPI.deleteSecteur(slug);
+                  
+                  // Rediriger vers la liste
+                  window.location.href = 'offre de formation.html#secteurs-settat';
+                }
+              };
+            }
+          }
+        }
+      });
+    </script>
+
+    <!-- Chatbot (identique à avant) -->
+  
+
+    <script>
+      const chatbotBubble = document.getElementById("chatbot-bubble");
+      const chatbotCard = document.getElementById("chatbot-card");
+      const closeChatbot = document.getElementById("close-chatbot");
+
+      chatbotBubble.addEventListener("click", () => {
+        chatbotCard.classList.toggle("visible");
+      });
+
+      closeChatbot.addEventListener("click", () => {
+        chatbotCard.classList.remove("visible");
+      });
+    </script>
+  </body>
+</html>

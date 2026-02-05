@@ -1,0 +1,12 @@
+node_modules/
+data.json
+data.json.tmp
+*.log
+.env
+.env.local
+.env*.local
+uploads/
+.DS_Store
+.vscode/
+*.swp
+*.swo

@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OFPPT - Formation Professionnelle Province de Settat</title>
+    <link rel="stylesheet" href="css/offre de formation.css" />
+    <link rel="stylesheet" href="css/style2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="js/head-foot.js"></script>
+  </head>
+ 
+  <script src="secteurs-api.js"></script>
+  <script src="js/charger-secteur.js"></script>
+
+  <body>
+    <!-- Section Parcours OFPPT -->
+    <section class="ofppt-parcours" id="ofppt-parcours">
+      <div class="ofppt-container">
+        <h2 class="filieres-title">
+          <i class="fa-solid fa-graduation-cap"></i>
+          les parcours de formation à l'OFPPT
+        </h2>
+        <div class="section-underline"></div>
+        
+        <div class="ofppt-brief">
+          <p class="ofppt-brief__text">
+            Découvrez les parcours de formation de l'OFPPT, conçus pour développer les compétences
+            techniques et professionnelles les plus demandées sur le marché du travail. À travers des
+            programmes alliant pratique, innovation et accompagnement personnalisé, l'OFPPT prépare
+            chaque apprenant à réussir son insertion et son évolution dans la vie active.
+          </p>
+        </div>
+
+        <div class="ofppt-brief ofppt-brief--banner">
+          <p class="ofppt-brief__text">
+            Découvrez les parcours de formation de l'OFPPT — pratique, innovation et employabilité au cœur de chaque programme.
+          </p>
+        </div>
+
+        <div class="ofppt-image-wrapper">
+          <img 
+            src="images/formation/Parcours.png" 
+            alt="Parcours de formation à l'OFPPT - Province de Settat" 
+            class="ofppt-parcours-image" 
+            loading="lazy"
+          />
+        </div>
+
+        <div class="ofppt-btns">
+          <a href="images/formation/Parcours.png" download class="btn-download">
+            <i class="fa-solid fa-download"></i> Télécharger l'affiche
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal pour image -->
+    <div class="image-modal" id="image-modal">
+      <span class="close-modal" id="close-modal">&times;</span>
+      <img id="modal-content" class="modal-content" src="" alt="">
+    </div>
+
+    <!-- Script pour modal image -->
+    <script>
+      const modal = document.getElementById("image-modal");
+      const modalImg = document.getElementById("modal-content");
+      const closeModal = document.getElementById("close-modal");
+      const image = document.querySelector(".ofppt-parcours-image");
+
+      closeModal.addEventListener("click", () => {
+        modal.style.display = "none";
+        document.body.style.overflow = "";
+      });
+
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          closeModal.click();
+        }
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeModal.click();
+      });
+    </script>
+
+    <!-- SECTION SECTEURS DYNAMIQUE -->
+    <section id="secteurs-settat" class="filieres-settat">
+      <div class="wrap">
+        <h2 class="filieres-title">
+          <i class="fa-solid fa-layer-group"></i>
+          Secteurs OFPPT — Province de Settat
+        </h2>
+        <div class="section-underline"></div>
+
+        <div class="ofppt-brief">
+          <p class="ofppt-brief__text">
+            Explorez les secteurs présents dans la province de Settat. Cliquez sur une carte pour découvrir
+            la présentation du secteur, la vidéo, les chiffres clés, les compétences recherchées et les filières proposées.
+          </p>
+        </div>
+
+        <!-- Message si aucun secteur -->
+        <div id="secteurs-empty" style="display: none; text-align: center; padding: 3rem; background: #f8fafc; border-radius: 12px; margin: 2rem 0;">
+          <i class="fas fa-inbox" style="font-size: 3rem; color: #94a3b8; margin-bottom: 1rem;"></i>
+          <h3 style="color: #475569; margin-bottom: 0.5rem;">Aucun secteur disponible</h3>
+          <p style="color: #64748b;">Utilisez l'interface d'administration pour ajouter des secteurs.</p>
+          <a href="admin-secteurs.html" class="admin-btn" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 1rem;">
+            <i class="fas fa-plus"></i> Ajouter un secteur
+          </a>
+        </div>
+
+        <!-- Grille des secteurs (remplie dynamiquement) -->
+        <div id="dynamic-secteurs" class="secteurs-grid"></div>
+
+        <!-- Bouton d'administration -->
+        <div style="text-align: center; margin-top: 30px;">
+          <a href="admin-secteurs.html" class="admin-btn" style="display: inline-flex; align-items: center; gap: 8px;">
+            <i class="fas fa-cog"></i> Gérer les secteurs (Admin)
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Script pour charger les secteurs -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser l'API des secteurs
+        if (window.SecteursAPI) {
+          // Initialiser les données
+          window.SecteursAPI.initialiser();
+          
+          // Charger les secteurs dans la grille
+          chargerSecteurs();
+          
+          // Vérifier périodiquement les changements
+          setInterval(chargerSecteurs, 30000);
+        } else {
+          console.error("❌ API des secteurs non disponible");
+          afficherErreur();
+        }
+        
+        function chargerSecteurs() {
+          const secteurs = window.SecteursAPI.getAllSecteurs();
+          const container = document.getElementById('dynamic-secteurs');
+          const emptyMsg = document.getElementById('secteurs-empty');
+          
+          if (!container) return;
+          
+          if (Object.keys(secteurs).length === 0) {
+            container.innerHTML = '';
+            if (emptyMsg) emptyMsg.style.display = 'block';
+            return;
+          }
+          
+          // Masquer le message "vide"
+          if (emptyMsg) emptyMsg.style.display = 'none';
+          
+          // Afficher les secteurs
+          window.SecteursAPI.renderSecteursGrid('dynamic-secteurs');
+          
+          console.log(`✅ ${Object.keys(secteurs).length} secteurs affichés`);
+        }
+        
+        function afficherErreur() {
+          const container = document.getElementById('dynamic-secteurs');
+          if (!container) return;
+          
+          container.innerHTML = `
+            <div style="text-align: center; padding: 2rem; color: #666; grid-column: 1 / -1;">
+              <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+              <p>Erreur de chargement des secteurs</p>
+              <p style="font-size: 0.9rem; color: #888; margin-top: 0.5rem;">Veuillez recharger la page ou contacter l'administrateur</p>
+              <a href="admin-secteurs.html" class="admin-btn" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 1rem;">
+                <i class="fas fa-cog"></i> Accéder à l'admin
+              </a>
+            </div>
+          `;
+        }
+      });
+
+      // Styles pour les boutons
+      const style = document.createElement('style');
+      style.textContent = `
+        .admin-btn {
+          display: inline-block;
+          padding: 10px 20px;
+          background: linear-gradient(135deg, #00c4cc 0%, #005c99 100%);
+          color: white;
+          text-decoration: none;
+          border-radius: 30px;
+          font-weight: 500;
+          border: none;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 12px rgba(0, 92, 153, 0.2);
+        }
+        
+        .admin-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 16px rgba(0, 92, 153, 0.3);
+        }
+        
+        .admin-btn i {
+          font-size: 0.9em;
+        }
+        
+        .sector-tile__meta {
+          margin-top: 10px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        
+
+      `;
+      document.head.appendChild(style);
+    </script>
+
+    <!-- Les autres sections restent inchangées -->
+    <section class="formation-types" id="types-formations">
+      <div class="wrap">
+        <h2 class="filieres-title">
+          <i class="fa-solid fa-layer-group"></i>
+          Les trois Axes de formation à l'OFPPT
+        </h2>
+        <div class="section-underline"></div>
+
+        <div class="ofppt-brief">
+          <p class="ofppt-brief__text">
+            Dans la province de <strong>Settat</strong>, l'OFPPT propose une offre structurée autour de
+            trois grands parcours complémentaires&nbsp;: La <strong>Formation Diplômante</strong>,
+            La <strong>Formation Qualifiante</strong> et La <strong>Formation Continue / Cours Du soir</strong>.
+            Ces dispositifs couvrent l'ensemble des besoins&nbsp;: insertion des jeunes, reconversion,
+            montée en compétences des salariés et accompagnement des entreprises du territoire.
+          </p>
+        </div>
+
+        <div class="formation-types__grid">
+          <!-- 1. Formation diplômante -->
+          <article class="formation-type-card">
+            <div class="formation-type-card__icon">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <h3 class="formation-type-card__title">Formation Diplômante</h3>
+            <p class="formation-type-card__text">
+              C'est le cœur de l'offre OFPPT. La formation diplômante prépare à un
+              <strong>diplôme officiel reconnu par l'État</strong>, avec une forte dimension pratique
+              en atelier, en laboratoire et en entreprise.
+            </p>
+            <ul class="formation-type-card__list">
+              <li>
+                <strong>Niveaux préparés&nbsp;:</strong> Spécialisation, Qualification, Technicien,
+                Technicien Spécialisé.
+              </li>
+              <li>
+                <strong>Durée moyenne&nbsp;:</strong> de 1 à 2 ans. Pour le niveau
+                <strong>Technicien Spécialisé</strong>, la durée est généralement de
+                <strong>24 mois</strong>, pouvant aller jusqu'à <strong>30 mois</strong>
+                selon la filière (stages longs, projet de fin d'études, modules complémentaires).
+              </li>
+              <li>
+                <strong>Public cible&nbsp;:</strong> élèves issus du collège, bacheliers,
+                lauréats en reconversion ou souhaitant professionnaliser leur parcours.
+              </li>
+              <li>
+                <strong>Secteurs proposés dans la province de Settat&nbsp;:</strong>
+                Digital &amp; Intelligence Artificielle, Génie Électrique, Génie Mécanique,
+                Gestion &amp; Commerce, Textile &amp; Habillement, BTP, Métiers de l'Automobile,
+                Tourisme-Hôtellerie-Restauration, services à la personne…
+              </li>
+              <li>
+                <strong>Centres concernés&nbsp;:</strong> ISTA et ISTA NTIC Settat, centres de Ben Ahmed,
+                EMFMBTP, autres établissements de la province.
+              </li>
+            </ul>
+          </article>
+
+          <!-- 2. Formation qualifiante -->
+          <article class="formation-type-card">
+            <div class="formation-type-card__icon">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+            <h3 class="formation-type-card__title">Formation Qualifiante</h3>
+            <p class="formation-type-card__text">
+              La formation qualifiante est orientée vers des <strong>parcours courts, ciblés
+              et très concrets</strong>. Elle permet d'apprendre rapidement un métier ou
+              d'acquérir une compétence précise recherchée sur le marché local.
+            </p>
+            <ul class="formation-type-card__list">
+              <li>
+                <strong>Durée&nbsp;:</strong> le plus souvent entre <strong>3 et 12 mois</strong>,
+                en formule intensive ou modulaire.
+              </li>
+              <li>
+                <strong>Public cible&nbsp;:</strong> jeunes en recherche d'insertion rapide, personnes
+                en reconversion, demandeurs d'emploi souhaitant se spécialiser dans un domaine précis.
+              </li>
+              <li>
+                <strong>Exemples de domaines qualifiants dans la province de Settat&nbsp;:</strong>
+                électricité de bâtiment, froid et climatisation, carrelage, menuiserie bois/métal,
+                maintenance de base en mécanique auto, couture et retouches, bureautique et logiciels
+                de gestion, services à la personne, etc.
+              </li>
+              <li>
+                <strong>Atout principal&nbsp;:</strong> focalisation sur le geste professionnel,
+                la pratique et l'employabilité immédiate.
+              </li>
+              <li>
+                <strong>Validation&nbsp;:</strong> attestation ou certificat qualifiant délivré par l'OFPPT,
+                valorisable auprès des employeurs.
+              </li>
+            </ul>
+          </article>
+
+          <!-- 3. Formation continue & cours du soir -->
+          <article class="formation-type-card">
+            <div class="formation-type-card__icon">
+              <i class="fa-solid fa-briefcase"></i>
+            </div>
+            <h3 class="formation-type-card__title">Formation Continue &amp; Cours Du Soir</h3>
+            <p class="formation-type-card__text">
+              Ce dispositif s'adresse aux <strong>salariés, cadres, agents des administrations,
+              auto-entrepreneurs et entreprises</strong> de la province de Settat qui souhaitent
+              adapter leurs compétences aux nouvelles exigences du marché.
+            </p>
+            <ul class="formation-type-card__list">
+              <li>
+                <strong>Objectifs&nbsp;:</strong> mise à niveau technique, développement des soft skills,
+                amélioration de la qualité de service, préparation à une promotion ou à une reconversion interne.
+              </li>
+              <li>
+                <strong>Formats possibles&nbsp;:</strong> modules courts, parcours certifiants,
+                programmes «&nbsp;sur mesure&nbsp;» pour les entreprises, <strong>cours du soir</strong>
+                permettant de se former tout en conservant son emploi.
+              </li>
+              <li>
+                <strong>Domaines fréquemment demandés&nbsp;:</strong> gestion et comptabilité, management,
+                marketing et commerce, langues étrangères, bureautique avancée, sécurité au travail (HSE),
+                techniques BTP et industrielles, outils numériques et collaboratifs.
+              </li>
+              <li>
+                <strong>Organisation&nbsp;:</strong> horaires aménagés (soir, week-end ou en journée selon
+                la demande), possibilité de planifier la formation en partenariat avec l'entreprise.
+              </li>
+              <li>
+                <strong>Avantage pour le territoire&nbsp;:</strong> accompagner la compétitivité des
+                entreprises de Settat, Ben Ahmed et des communes rurales en leur offrant une offre
+                de formation de proximité.
+              </li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="ofppt-parcours" id="formations">
+      <div class="ofppt-container">
+        <h2 class="filieres-title">
+          <i class="fa-solid fa-graduation-cap"></i>
+          Découvrez les formations à l'OFPPT
+        </h2>
+        <div class="section-underline"></div>
+        
+        <section class="tracks-intro">
+          <div class="tracks-intro__content">
+            <p class="ofppt-brief"><strong>
+              Vous cherchez une formation qui répond à vos aspirations professionnelles
+              et tient compte de votre potentiel ?<br><br>
+              Découvrez notre panoplie de filières accessibles dès la 1ère année de formation
+              ou accédez à nos troncs communs, avant de choisir une option de spécialisation
+              pour la 2ème année.<br><br>
+              Informez-vous sur les conditions d'admission, les modalités de sélection,
+              l'organisation de la formation… En bref, tout ce qu'il faut savoir pour avancer
+              dans vos recherches !
+            </strong>
+            </p>
+          </div>
+
+          <div class="tracks-intro__photos-content">
+            <div class="tracks-intro__photos">
+              <figure class="photo-card"><img src="https://www.myway.ac.ma/_next/image?url=%2Fimages%2Ffiliere-image1.png&w=256&q=75" alt=""></figure>
+              <figure class="photo-card"><img src="https://www.myway.ac.ma/_next/image?url=%2Fimages%2Ffiliere-image2.png&w=256&q=75" alt=""></figure>
+              <figure class="photo-card"><img src="https://www.myway.ac.ma/_next/image?url=%2Fimages%2Ffiliere-image3.png&w=256&q=75" alt=""></figure>
+              <figure class="photo-card"><img src="https://www.myway.ac.ma/_next/image?url=%2Fimages%2Ffiliere-image4.png&w=256&q=75" alt=""></figure>
+              <figure class="photo-card"><img src="https://www.myway.ac.ma/_next/image?url=%2Fimages%2Ffiliere-image5.png&w=256&q=75" alt=""></figure>
+              <figure class="photo-card"><img src="https://www.myway.ac.ma/_next/image?url=%2Fimages%2Ffiliere-image6.png&w=256&q=75" alt=""></figure>
+            </div>
+          </div>
+          
+          
+        </section>
+        <div class="tracks-intro__cta">
+            <a href="Formations.html" class="btn-primary btn-lg">
+              Découvrez nos formations
+            </a>
+          </div>
+      </div>
+    </section>
+
+    <!-- Scripts pour animations -->
+    <script>
+      document.addEventListener('click', function(e){
+        const a = e.target.closest('a[href^="#"]');
+        if(!a) return;
+        const id = a.getAttribute('href').slice(1);
+        const target = document.getElementById(id);
+        if(target){
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+
+      (function(){
+        const cards = document.querySelectorAll('.tracks-intro__photos .photo-card');
+        if (!('IntersectionObserver' in window) || !cards.length){
+          cards.forEach(el => el.classList.add('is-in')); 
+          return;
+        }
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting){
+              const i = [...cards].indexOf(e.target);
+              e.target.style.transitionDelay = (i * 90) + 'ms'; 
+              e.target.classList.add('is-in');
+              io.unobserve(e.target); 
+            }
+          });
+        }, {threshold: 0.15});
+
+        cards.forEach(el => io.observe(el));
+      })();
+    </script>
+
+    <!-- Chatbot -->
+    
+
+    <script>
+      const chatbotBubble = document.getElementById("chatbot-bubble");
+      const chatbotCard = document.getElementById("chatbot-card");
+      const closeChatbot = document.getElementById("close-chatbot");
+
+      chatbotBubble.addEventListener("click", () => {
+        chatbotCard.classList.toggle("visible");
+      });
+
+      closeChatbot.addEventListener("click", () => {
+        chatbotCard.classList.remove("visible");
+      });
+
+      // Zoom image parcours
+      document.addEventListener('DOMContentLoaded', function() {
+        const parcourImage = document.querySelector('.ofppt-parcours-image');
+        
+        if (parcourImage) {
+          parcourImage.style.cursor = 'zoom-in';
+          
+          parcourImage.addEventListener('click', function() {
+            let modal = document.getElementById('image-modal');
+            
+            if (!modal) {
+              modal = document.createElement('div');
+              modal.id = 'image-modal';
+              modal.className = 'image-modal';
+              modal.style.cssText = `
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.9);
+                z-index: 1000;
+                justify-content: center;
+                align-items: center;
+                cursor: zoom-out;
+              `;
+              
+              const closeBtn = document.createElement('span');
+              closeBtn.id = 'close-modal';
+              closeBtn.innerHTML = '&times;';
+              closeBtn.style.cssText = `
+                position: absolute;
+                top: 20px;
+                right: 30px;
+                color: white;
+                font-size: 40px;
+                font-weight: bold;
+                cursor: pointer;
+                z-index: 1001;
+              `;
+              
+              const modalImg = document.createElement('img');
+              modalImg.id = 'modal-content';
+              modalImg.className = 'modal-content';
+              modalImg.style.cssText = `
+                max-width: 90%;
+                max-height: 90%;
+                object-fit: contain;
+                border-radius: 5px;
+              `;
+              
+              modal.appendChild(closeBtn);
+              modal.appendChild(modalImg);
+              document.body.appendChild(modal);
+              
+              closeBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+              });
+              
+              modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                  modal.style.display = 'none';
+                  document.body.style.overflow = '';
+                }
+              });
+              
+              document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.style.display === 'flex') {
+                  modal.style.display = 'none';
+                  document.body.style.overflow = '';
+                }
+              });
+            }
+            
+            const modalImg = document.getElementById('modal-content');
+            modalImg.src = this.src;
+            modalImg.alt = this.alt;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+          });
+        }
+      });
+    </script>
+
+    <script src="js/admin-mode.js"></script>
+  </body>
+</html>

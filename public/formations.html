@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Formations OFPPT – Settat</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style2.css">
+  
+  <script src="js/head-foot.js"></script>
+
+<style>
+  /* TOUS LES STYLES EXISTANTS RESTENT INCHANGÉS */
+  @keyframes chip-pop {
+    from { opacity:0; transform:translateY(4px) scale(.97); }
+    to   { opacity:1; transform:translateY(0) scale(1); }
+  }
+
+  @keyframes complexe-pulse {
+    0%   { box-shadow:0 0 0 0 rgba(14,165,122,.55); }
+    60%  { box-shadow:0 0 0 12px rgba(14,165,122,0); }
+    100% { box-shadow:0 0 0 0 rgba(14,165,122,0); }
+  }
+
+  .filters{
+    margin-top:22px;
+    margin-bottom:8px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:10px 14px;
+    border-radius:16px;
+    background:linear-gradient(135deg, #e6f3ff, #e2f8f1);
+    border:1px solid rgba(0,114,188,0.25);
+    box-shadow:0 10px 25px rgba(15,23,42,0.06);
+  }
+
+  .filters::before{
+    content:"Filtres";
+    font-size:12px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    color:#0b4f7a;
+    padding-right:10px;
+    border-right:1px solid rgba(148,163,184,0.55);
+  }
+
+  .filters select{
+    appearance:none;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    min-width:160px;
+    padding:8px 34px 8px 12px;
+    border-radius:999px;
+    border:1px solid rgba(148,163,184,0.7);
+    background-color:#ffffff;
+    font-size:13px;
+    font-weight:500;
+    color:#0f172a;
+    box-shadow:0 3px 8px rgba(15,23,42,0.04);
+    background-image:
+      linear-gradient(45deg, transparent 50%, #0f172a 50%),
+      linear-gradient(135deg, #0f172a 50%, transparent 50%);
+    background-position:
+      calc(100% - 18px) 50%,
+      calc(100% - 12px) 50%;
+    background-size:6px 6px, 6px 6px;
+    background-repeat:no-repeat;
+    cursor:pointer;
+    transition:
+      border-color .15s ease,
+      box-shadow .18s ease,
+      transform .12s ease,
+      background-color .15s ease;
+  }
+
+  .filters select:hover{
+    border-color:#0ea57a;
+    box-shadow:0 5px 14px rgba(15,23,42,0.10);
+    transform:translateY(-1px);
+  }
+
+  .filters select:focus{
+    outline:none;
+    border-color:#0ea57a;
+    box-shadow:
+      0 0 0 1px rgba(14,165,122,.35),
+      0 6px 18px rgba(15,23,42,0.16);
+  }
+
+  .chips{
+    margin-top:8px;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:6px;
+    padding:6px 10px;
+    border-radius:999px;
+    background:#f8fafc;
+    border:1px dashed rgba(148,163,184,0.6);
+  }
+
+  .chips .chip{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:5px 12px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:500;
+    background:#ffffff;
+    border:1px solid rgba(148,163,184,0.7);
+    color:#0f172a;
+    cursor:pointer;
+    transition:
+      background .16s ease,
+      border-color .16s ease,
+      box-shadow .18s ease,
+      transform .14s ease,
+      opacity .16s ease;
+    animation:chip-pop .25s ease-out both;
+  }
+
+  .chips .chip::after{
+    content:"✕";
+    font-size:10px;
+    opacity:.55;
+  }
+
+  .chips .chip--muted{
+    opacity:.55;
+  }
+
+  .chips .chip--muted:hover{
+    opacity:1;
+  }
+
+  .chips .chip:hover{
+    background:#0ea57a;
+    border-color:#0a825f;
+    color:#ffffff;
+    box-shadow:0 4px 10px rgba(15,23,42,0.18);
+    transform:translateY(-1px);
+  }
+
+  .chips #chip-complexe{
+    background:linear-gradient(135deg, #0072bc, #00a651);
+    border-color:rgba(0,128,128,0.95);
+    color:#ffffff;
+    box-shadow:0 6px 16px rgba(0,128,128,0.55);
+    position:relative;
+    padding-right:16px;
+    animation:chip-pop .25s ease-out both, complexe-pulse 2s ease-out 1.2s infinite;
+  }
+
+  .chips #chip-complexe::before{
+    content:"●";
+    font-size:9px;
+    margin-right:2px;
+    opacity:.9;
+  }
+
+  .chips #chip-complexe::after{
+    opacity:.85;
+  }
+
+  .chips #chip-complexe:hover{
+    background:linear-gradient(135deg, #00a651, #0072bc);
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(0,128,128,0.75);
+  }
+
+  @media (max-width: 840px){
+    .filters{
+      flex-wrap:wrap;
+      align-items:flex-start;
+    }
+    .filters::before{
+      margin-bottom:4px;
+      border-right:none;
+      border-bottom:1px solid rgba(148,163,184,0.35);
+      padding-right:0;
+      padding-bottom:4px;
+      width:100%;
+    }
+    .filters select{
+      min-width:100%;
+    }
+  }
+  
+  .hero-actions{ margin-bottom:8px; }
+  
+  .back-btn{
+    display:inline-block; font-weight:800; text-decoration:none;
+    background: rgba(255,255,255,.92); color:#0c3141;
+    border:1px solid rgba(255,255,255,.8); border-radius:999px;
+    padding: 8px 12px; box-shadow: var(--sh-sm);
+    transition: transform var(--ease) .2s, box-shadow var(--ease) .2s, background .2s;
+  }
+  
+  .back-btn:hover{ transform: translateY(-1px); box-shadow: var(--sh-md); background:#0d8802; }
+
+  .back-to-top {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00c4cc 0%, #005c99 100%);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+    text-decoration: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.9);
+    transition: all 0.3s ease;
+    z-index: 1000;
+  }
+
+  .back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+  }
+  
+  .back-to-top:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 18px rgba(0, 167, 179, 0.4);
+    background: linear-gradient(135deg, #00d7e2 0%, #0073b1 100%);
+  }
+
+  .back-to-top svg { display:block; }
+
+  @media (max-width: 600px) {
+    .back-to-top {
+      width: 44px;
+      height: 44px;
+      bottom: 18px;
+      right: 18px;
+    }
+    .back-to-top svg { width: 20px; height: 20px; }
+  }
+  
+  .back-arrow {
+    display: inline-flex;
+    position: fixed;
+    align-items: center;
+    gap: 8px;
+    margin: 15px 0 20px 40px;
+    padding: 8px 14px;
+    background: linear-gradient(135deg,#0073b1,#00c4cc);
+    color: #fff;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.2);
+    transition: all .3s ease;
+    z-index: 9999;
+  }
+  
+  .back-arrow svg {
+    width: 22px;
+    height: 22px;
+    stroke: #fff;
+  }
+  
+  .back-arrow:hover {
+    background: linear-gradient(135deg,#009cd4,#00d9b8);
+    transform: translateX(-4px);
+    box-shadow: 0 5px 16px rgba(0,0,0,.25);
+  }
+
+  .ofppt-title {
+    font-size: 2rem;
+    color: #0d47a1;
+    font-weight: 700;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-transform: uppercase;
+  }
+  
+  .filieres-title {
+    color: #0d47a1;
+    font-size: 2.3rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    letter-spacing: 1px;
+  }
+  
+  .section-underline {
+    width: 100px;
+    height: 4px;
+    margin: 10px auto 15px;
+    background: linear-gradient(90deg, #00a676, #006c50);
+    border-radius: 3px;
+    animation: slideIn 1.5s ease-out;
+  }
+
+  .filieres-title i {
+    font-size: 1.6rem;
+    color: #2eb872;
+    filter: drop-shadow(0 0 4px rgba(46, 184, 114, 0.3));
+  }
+</style>
+
+</head>
+<body>
+  
+<a href="offre de formation.html" class="back-arrow" title="Retour aux offres de formation">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+       fill="none" stroke="currentColor" stroke-width="2" 
+       stroke-linecap="round" stroke-linejoin="round">
+    <path d="M15 18l-6-6 6-6"></path>
+  </svg>
+  <span>Retour</span>
+</a>
+
+<section id="ofppt-parcours" class="ofppt-parcours">
+  <div class="wrap">
+    <h2 class="filieres-title">
+      Les Types de Formations dans l'Offre OFPPT
+    </h2>
+    <div class="section-underline"></div>
+        
+    <div class="ofppt-brief">
+      <p class="ofppt-brief__text" style="margin-top:6px;">
+        L'OFPPT propose une offre diversifiée permettant aux apprenants, aux salariés et aux chercheurs d'opportunités professionnelles de développer leurs compétences selon leurs objectifs. Ce dispositif repose sur trois catégories essentielles : <strong>les Formations Diplômantes</strong>, qui préparent à un diplôme reconnu à l'échelle nationale ; <strong>les Formations Qualifiantes</strong>, axées sur l'acquisition rapide de compétences pratiques pour l'emploi ; et <strong>les Formations Continue</strong>, destinées aux professionnels souhaitant renforcer, actualiser ou reconvertir leurs compétences.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="complexes-bar" id="complexesBar" aria-label="Filtrer par complexe">
+  <button class="complexe-btn is-active" data-complexe="settat">Complexe de Formation Settat</button>
+  <button class="complexe-btn" data-complexe="btp">Ecole Mohammed VI de Formation dans les Métiers du BTP</button>
+  <button class="complexe-btn" data-complexe="benahmed">Complexe de Formation Ben Ahmed</button>
+</div>
+
+<div class="filters">
+  <select id="f-diplome"></select>
+  <select id="f-niveau"></select> 
+  <select id="f-secteur"></select>
+</div>
+
+<div class="filieres-grid">
+  <div id="chips" class="card card--sector"></div>
+  <div id="counter" class="counter">—</div>
+  <div id="cards" class="grid" aria-label="Liste des formations"></div>
+</div>
+
+<div class="showmore">
+  <button id="moreBtn" class="btn">Afficher plus</button>
+</div>
+
+<!-- ================= CHARGEMENT DES DONNÉES ================= -->
+<script src="js/data.js"></script>
+<script src="js/adult.js"></script>
+
+<!-- ================= FUSION AMÉLIORÉE DES FORMATIONS ADMIN ================= -->
+
+
+<!-- CHARGER list.js APRÈS la fusion -->
+<script src="js/list.js"></script>
+
+<div class="page-gap"></div>
+
+
+<script>
+  const chatbotBubble = document.getElementById("chatbot-bubble");
+  const chatbotCard = document.getElementById("chatbot-card");
+  const closeChatbot = document.getElementById("close-chatbot");
+
+  chatbotBubble.addEventListener("click", () => {
+    chatbotCard.classList.toggle("visible");
+  });
+
+  closeChatbot.addEventListener("click", () => {
+    chatbotCard.classList.remove("visible");
+  });
+  
+  // Bouton retour en haut
+  const backToTop = document.querySelector('.back-to-top');
+  if (backToTop) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 150) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+    
+    backToTop.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
+</script>
+
+<script src="js/admin-mode.js"></script>
+
+</body>
+</html>

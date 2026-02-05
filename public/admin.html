@@ -1,0 +1,383 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Admin - OFPPT (Mise à jour)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="css/actualites.css">
+
+<style>
+  /* petites améliorations locales */
+  .form-grid { display:grid; grid-template-columns: 1fr 1fr; gap:12px; align-items:start; }
+  .full { grid-column: 1 / -1; }
+  label{display:block;margin:8px 0 4px;font-weight:600}
+  input[type="text"], input[type="date"], textarea, select { width:100%; padding:10px; border-radius:8px; border:1px solid #ddd; box-sizing:border-box; }
+  .small-note { font-size:13px; color:#666; margin-top:6px; }
+  .controls { display:flex; gap:8px; margin-top:12px; }
+  .preview-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+  .preview { width:120px; height:80px; object-fit:cover; border-radius:6px; border:1px solid #eee; }
+
+  /* table admin */
+  .admin-table { width:100%; border-collapse:collapse; margin-top:14px; }
+  .admin-table th, .admin-table td { padding:8px 10px; border:1px solid #e6e6e6; text-align:left; }
+  .admin-actions button{ margin-right:6px }
+  .top-controls { display:flex; gap:8px; align-items:center }
+</style>
+</head>
+<body>
+<div class="container">
+  <header style="display:flex;justify-content:space-between;align-items:center;">
+    <h1>Tableau de bord</h1>
+    <div class="top-controls">
+      <button id="btnViewPublic" class="btn">Voir la page publique</button>
+      <button id="btnLogout" class="btn-logout">Logout</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="card" style="margin-top:12px;">
+      <h2 id="formTitle">Créer / Publier une actualité</h2>
+
+      <div class="form-grid">
+        <input id="actusId" type="hidden" />
+        <div>
+          <label for="title">Titre</label>
+          <input id="title" type="text" placeholder="Titre de l'actualité" />
+        </div>
+
+        <div>
+          <label for="type">Type</label>
+          <select id="type">
+            <option value="actualite">Actualité</option>
+            <option value="evenement">Événement</option>
+            <option value="communique">Communiqué</option>
+          </select>
+        </div>
+
+        <div class="full">
+          <label for="summary">Résumé (court)</label>
+          <input id="summary" type="text" placeholder="Résumé court affiché sur la liste" />
+        </div>
+
+        <div>
+          <label for="date">Date</label>
+          <input id="date" type="date" />
+        </div>
+
+        <div class="full">
+          <label for="content">Contenu détaillé</label>
+          <textarea id="content" rows="8" placeholder="Contenu détaillé de l'actualité"></textarea>
+        </div>
+
+        <div>
+          <label for="mainImage">Image principale</label>
+          <input id="mainImage" type="file" accept="image/*" />
+          <div id="mainPreview" class="preview-row"></div>
+          <p class="small-note">Image principale affichée en en-tête.</p>
+        </div>
+
+        <div>
+          <label for="gallery">Galerie (images & vidéos)</label>
+          <input id="gallery" type="file" accept="image/*,video/*" multiple />
+          <div id="galleryPreview" class="preview-row"></div>
+          <p class="small-note">Sélection multiple possible — images et vidéos seront uploadées.</p>
+        </div>
+
+        <div class="full controls">
+          <button id="btnCreate" class="btn-primary">Publier / Mettre à jour</button>
+          <button id="btnClear" class="btn-logout">Réinitialiser</button>
+        </div>
+
+        <div class="full">
+          <p id="createMsg" class="small-note"></p>
+        </div>
+      </div>
+
+      <!-- TABLEAU DES ACTUS -->
+      <h3 style="margin-top:18px;">Actualités publiées</h3>
+      <table class="admin-table" id="actusTable">
+        <thead>
+          <tr>
+            <th>Titre</th>
+            <th>Type</th>
+            <th>Date</th>
+            <th>ID</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="actusTableBody">
+          <tr><td colspan="5">Chargement...</td></tr>
+        </tbody>
+      </table>
+
+    </section>
+  </main>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/storage-shim.js"></script>
+
+<script>
+// Wrap everything in DOMContentLoaded to ensure elements exist
+window.addEventListener('DOMContentLoaded', () => {
+  // reuse helper preview from original admin
+  function makePreview(file) {
+    const url = URL.createObjectURL(file);
+    if (file.type && file.type.startsWith && file.type.startsWith('image/')) {
+      const img = document.createElement('img'); img.src = url; img.className = 'preview'; return img;
+    } else if (file.type && file.type.startsWith && file.type.startsWith('video/')) {
+      const vid = document.createElement('video'); vid.src = url; vid.className = 'preview'; vid.muted=true; vid.loop=true; vid.autoplay=true; return vid;
+    } else { const box = document.createElement('div'); box.textContent = file.name || 'fichier'; box.className = 'preview'; return box; }
+  }
+
+  async function uploadFiles(files) {
+    if (!files || files.length === 0) return [];
+    // if API.uploadFiles is available use it, else try a direct fetch
+    const fd = new FormData();
+    for (let i = 0; i < files.length; i++) fd.append('files', files[i]);
+    try {
+      if (window.API && typeof API.uploadFiles === 'function') {
+        const res = await API.uploadFiles(fd);
+        if (res && (res.ok || res.success)) return res.urls || res.data || [];
+        // fallback continue to try server endpoint
+      }
+      const resp = await fetch('/api/upload', { method: 'POST', body: fd, credentials: 'same-origin' });
+      if (!resp.ok) throw new Error('Upload failed: '+resp.status);
+      const json = await resp.json();
+      return json.urls || json.data || [];
+    } catch (e) {
+      console.warn('Upload failed', e); throw e;
+    }
+  }
+
+  // previews
+  const mainImageInput = document.getElementById('mainImage');
+  const galleryInput = document.getElementById('gallery');
+  if (mainImageInput) mainImageInput.addEventListener('change', (e)=>{
+    const r = document.getElementById('mainPreview'); if (!r) return; r.innerHTML = '';
+    const f = e.target.files[0]; if (f) r.appendChild(makePreview(f));
+  });
+  if (galleryInput) galleryInput.addEventListener('change', (e)=>{
+    const r = document.getElementById('galleryPreview'); if (!r) return; r.innerHTML = '';
+    const files = e.target.files; for (let i=0;i<files.length;i++) r.appendChild(makePreview(files[i]));
+  });
+
+  // Load list into table
+  async function loadActusTable() {
+    const body = document.getElementById('actusTableBody');
+    if (!body) return console.warn('No table body found');
+    body.innerHTML = '<tr><td colspan="5">Chargement...</td></tr>';
+    try {
+      let res;
+      // prefer API.fetchActualites if available
+      if (window.API && typeof API.fetchActualites === 'function') {
+        try { res = await API.fetchActualites(50); } catch(e) { console.warn('API.fetchActualites failed', e); res = null; }
+      }
+      // normalize response shape
+      let list = [];
+      if (Array.isArray(res)) list = res;
+      else if (res && Array.isArray(res.actualites)) list = res.actualites;
+      else if (res && Array.isArray(res.data)) list = res.data;
+      else if (res && Array.isArray(res.items)) list = res.items;
+
+      // fallback: try a direct fetch to the server endpoint
+      if (!list.length) {
+        try {
+          const r2 = await fetch('/api/actualites?limit=50', { credentials: 'same-origin' });
+          if (r2.ok) {
+            const j = await r2.json();
+            if (Array.isArray(j)) list = j;
+            else if (Array.isArray(j.actualites)) list = j.actualites;
+            else if (Array.isArray(j.data)) list = j.data;
+          } else {
+            console.warn('Direct fetch /api/actualites failed', r2.status);
+          }
+        } catch (e) {
+          console.warn('Direct fetch error', e);
+        }
+      }
+
+      if (!list || !list.length) { body.innerHTML = '<tr><td colspan="5">Aucune actualité.</td></tr>'; return; }
+      body.innerHTML = '';
+      list.forEach(a=>{
+        const tr = document.createElement('tr');
+        const titleTd = document.createElement('td'); titleTd.textContent = a.title || a.titre || a.nom || '';
+        const typeTd = document.createElement('td'); typeTd.textContent = a.type || a.typeActu || a.category || '';
+        const dateTd = document.createElement('td'); dateTd.textContent = a.date || (a.createdAt ? (new Date(a.createdAt)).toLocaleDateString() : '');
+        const idTd = document.createElement('td'); idTd.textContent = a.id || a._id || '';
+        const actionsTd = document.createElement('td'); actionsTd.className='admin-actions';
+
+        const editBtn = document.createElement('button'); editBtn.className='btn secondary-btn'; editBtn.textContent='Modifier';
+        editBtn.addEventListener('click', ()=> fillFormForEdit(a));
+
+        const delBtn = document.createElement('button'); delBtn.className='btn danger-btn'; delBtn.textContent='Supprimer';
+        delBtn.addEventListener('click', ()=> deleteActu(a.id || a._id));
+
+        const viewBtn = document.createElement('button'); viewBtn.className='btn'; viewBtn.textContent='Voir pub.';
+        viewBtn.addEventListener('click', ()=> { window.open(buildDetailUrl(a), '_blank'); });
+
+        actionsTd.appendChild(viewBtn); actionsTd.appendChild(editBtn); actionsTd.appendChild(delBtn);
+
+        tr.appendChild(titleTd); tr.appendChild(typeTd); tr.appendChild(dateTd); tr.appendChild(idTd); tr.appendChild(actionsTd);
+        body.appendChild(tr);
+      });
+    } catch (e) {
+      console.error('loadActusTable error', e);
+      body.innerHTML = '<tr><td colspan="5">Erreur de chargement (voir console).</td></tr>';
+    }
+  }
+
+  // Fill form for edit
+  function fillFormForEdit(actu) {
+    if (!actu) return;
+    document.getElementById('actusId').value = actu.id || actu._id || '';
+    document.getElementById('title').value = actu.title || actu.titre || '';
+    document.getElementById('type').value = actu.type || actu.typeActu || 'actualite';
+    document.getElementById('summary').value = actu.summary || actu.resume || '';
+    document.getElementById('content').value = actu.content || actu.contenu || '';
+    document.getElementById('date').value = actu.date || (actu.createdAt ? actu.createdAt.slice(0,10) : '');
+    // note: file inputs cannot be populated programmatically; previews can be shown via URLs
+    const mp = document.getElementById('mainPreview'); if (mp) mp.innerHTML = '';
+    const mainUrl = actu.mainImage || actu.imagePrincipale || actu.image || '';
+    if (mainUrl && mp) { const img = document.createElement('img'); img.src = mainUrl; img.className='preview'; mp.appendChild(img); }
+    const gp = document.getElementById('galleryPreview'); if (gp) gp.innerHTML = '';
+    const medias = actu.medias || actu.gallery || actu.images || actu.media || [];
+    if (Array.isArray(medias)) {
+      medias.forEach(url=>{ if (!url) return; const el = document.createElement('img'); el.src=url; el.className='preview'; gp.appendChild(el); });
+    }
+    document.getElementById('formTitle').textContent = "Modifier l'actualité";
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Build detail url (consistent with public code)
+  function generateActuSlug(actu) {
+    const base = (actu.title || actu.titre || 'actualite').toLowerCase();
+    const normalized = base.normalize ? base.normalize('NFD').replace(/[\u0300-\u036f]/g, '') : base;
+    return normalized.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  }
+  function buildDetailUrl(actu) {
+    const slug = generateActuSlug(actu);
+    const id = encodeURIComponent(actu.id || actu._id || '');
+    return `../actualite.html?id=${id}&slug=${slug}`;
+  }
+
+  // Delete actu - tries API DELETE, else shows instructions
+  async function deleteActu(id) {
+    if (!id) return alert('ID manquant pour la suppression.');
+    if (!confirm('Voulez-vous vraiment supprimer cette actualité ?')) return;
+    try {
+      // Try server API delete endpoint
+      const res = await fetch(`/api/actualites/${encodeURIComponent(id)}`, { method: 'DELETE', credentials: 'same-origin' });
+      if (res.ok) {
+        alert('Actualité supprimée.');
+        await loadActusTable();
+        return;
+      }
+      const txt = await res.text(); console.warn('Delete response', res.status, txt);
+      alert('Suppression non supportée côté serveur (code '+res.status+'). Voir la console.');
+    } catch (e) {
+      console.error('deleteActu error', e);
+      alert('Erreur de suppression (voir console). Si vous exécutez localement, ajoutez un endpoint DELETE /api/actualites/:id côté serveur.');
+    }
+  }
+
+  // Create / Update handler (uses API POST for create; for update tries PUT)
+  const btnCreate = document.getElementById('btnCreate');
+  if (btnCreate) btnCreate.addEventListener('click', async ()=>{
+    const id = (document.getElementById('actusId').value || '').trim();
+    const title = (document.getElementById('title').value || '').trim();
+    const summary = (document.getElementById('summary').value || '').trim();
+    const date = document.getElementById('date').value;
+    const type = document.getElementById('type').value;
+    const content = (document.getElementById('content').value || '').trim();
+    if (!title) { document.getElementById('createMsg').textContent = 'Le titre est requis.'; return; }
+    document.getElementById('createMsg').textContent = 'Publication en cours...';
+    try {
+      let mainImageUrl = '';
+      let medias = [];
+      const mainFiles = document.getElementById('mainImage').files;
+      if (mainFiles && mainFiles.length>0) { const urls = await uploadFiles(mainFiles); if (urls && urls.length) mainImageUrl = urls[0]; }
+      const galleryFiles = document.getElementById('gallery').files;
+      if (galleryFiles && galleryFiles.length>0) { const gurls = await uploadFiles(galleryFiles); if (gurls && gurls.length) medias = medias.concat(gurls); }
+
+      const payload = { title, summary, date, type, content, mainImage: mainImageUrl, medias };
+
+      if (id) {
+        // try update via PUT
+        try {
+          const r = await fetch(`/api/actualites/${encodeURIComponent(id)}`, { method: 'PUT', credentials: 'same-origin', headers: { 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
+          if (r.ok) { document.getElementById('createMsg').textContent = 'Actualité mise à jour.'; clearForm(); await loadActusTable(); return; }
+          console.warn('Update failed', r.status, await r.text());
+        } catch (e) { console.warn('Update exception', e); }
+        // fallback: inform user
+        alert('Mise à jour non supportée côté serveur. Vous pouvez supprimer puis recréer la news, ou ajouter un endpoint PUT /api/actualites/:id côté serveur.');
+        document.getElementById('createMsg').textContent = '';
+        return;
+      }
+
+      // Create
+      let res;
+      if (window.API && typeof API.createActualite === 'function') {
+        try { res = await API.createActualite(payload); } catch(e) { console.warn('API.createActualite failed', e); res = null; }
+        // exemple handler pour publier / mettre à jour
+try {
+  if (id) {
+    const res = await API.updateActualite(id, payload);
+    console.log('updated', res);
+  } else {
+    const res = await API.createActualite(payload);
+    console.log('created', res);
+  }
+  // refresh table...
+} catch(err) {
+  console.error('Publish error', err);
+  // err may have err.status, err.text, err.json
+  const message = err && err.json && err.json.error ? err.json.error : (err && err.text) ? err.text : 'Erreur serveur';
+  // affichage utilisateur
+  document.getElementById('createMsg').textContent = message;
+}
+
+      }
+      if (!res) {
+        // fallback to fetch
+        const r2 = await fetch('/api/actualites', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
+        if (r2.ok) { document.getElementById('createMsg').textContent = 'Actualité publiée avec succès.'; clearForm(); await loadActusTable(); return; }
+        const jr = await r2.text(); console.warn('Create failed', r2.status, jr);
+        document.getElementById('createMsg').textContent = 'Erreur lors de la publication';
+        return;
+      }
+
+      if (res && (res.ok || res.success)) {
+        document.getElementById('createMsg').textContent = 'Actualité publiée avec succès.';
+        clearForm();
+        await loadActusTable();
+        return;
+      }
+      document.getElementById('createMsg').textContent = (res && res.error) ? res.error : 'Erreur lors de la publication';
+    } catch (err) {
+      console.error('Publish error', err);
+      document.getElementById('createMsg').textContent = err && err.error ? err.error : 'Erreur réseau ou upload.';
+    }
+  });
+  
+
+  const btnClear = document.getElementById('btnClear');
+  if (btnClear) btnClear.addEventListener('click', ()=>{ clearForm(); document.getElementById('createMsg').textContent = ''; });
+
+  function clearForm(){
+    document.getElementById('actusId').value=''; document.getElementById('title').value=''; document.getElementById('summary').value=''; document.getElementById('date').value=''; document.getElementById('type').value='actualite'; document.getElementById('content').value='';
+    if (document.getElementById('mainImage')) document.getElementById('mainImage').value=''; if (document.getElementById('gallery')) document.getElementById('gallery').value='';
+    if (document.getElementById('mainPreview')) document.getElementById('mainPreview').innerHTML=''; if (document.getElementById('galleryPreview')) document.getElementById('galleryPreview').innerHTML=''; document.getElementById('formTitle').textContent = "Créer / Publier une actualité";
+  }
+
+  // Logout & view public
+  const btnLogout = document.getElementById('btnLogout'); if (btnLogout) btnLogout.addEventListener('click', async ()=>{ if (window.API && typeof API.logout === 'function') await API.logout(); window.location.href = '/'; });
+  const btnViewPublic = document.getElementById('btnViewPublic'); if (btnViewPublic) btnViewPublic.addEventListener('click', ()=>{ window.open('/actualites.html', '_blank'); });
+
+  // initial load
+  loadActusTable();
+});
+</script>
+</body>
+</html>

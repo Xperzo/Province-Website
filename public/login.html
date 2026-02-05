@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Connexion - OFPPT</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<style>
+  :root { --primary: #0f0f73; --accent: #494646; --bg:#1b8250; }
+  body{background:var(--bg);font-family:Arial,Helvetica,sans-serif;margin:0;height:100vh;display:flex;align-items:center;justify-content:center;background-image: url(images/acceuil/Siège_ofppt.jpg); background-size: cover; background-position: center;}
+  .card{padding:28px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.08);width:360px;text-align:center;backdrop-filter: blur(3px);}
+  h1{margin:0 0 18px;color:white;}
+  input{width:100%;padding:10px;margin:8px 0;border:1px solid #ddd;border-radius:8px}
+  .btn{width:100%;padding:10px;border-radius:8px;background:var(--primary);color:white;border:none;font-weight:600;cursor:pointer}
+  .small{font-size:13px;color:#f9f8f8;margin-top:8px}
+  .error{color:#b00020;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Connexion</h1>
+  <input id="username" placeholder="Nom d'utilisateur" />
+  <input id="password" type="password" placeholder="Mot de passe" />
+  <button id="btnLogin" class="btn">Se connecter</button>
+  <p id="msg" class="error"></p>
+  <p class="small">Contact admin si vous n’avez pas de compte.</p>
+</div>
+<script src="/js/api.js"></script>
+<script>
+document.getElementById('btnLogin').addEventListener('click', async ()=>{
+  const u=document.getElementById('username').value, p=document.getElementById('password').value;
+  try {
+    const r = await API.login({ username: u, password: p });
+    if (r && r.ok) {
+      // attendre que le serveur ait bien posé la session (poll /api/me)
+      const maxAttempts = 6;
+      const delayMs = 400;
+      let ok = false;
+      for (let i=0;i<maxAttempts;i++) {
+        try {
+          const resp = await fetch('/api/me', { credentials: 'same-origin' });
+          if (resp.ok) { ok = true; break; }
+        } catch(e) { /* ignore */ }
+        await new Promise(r => setTimeout(r, delayMs));
+      }
+      if (ok) {
+        window.location.href = '/admin.html';
+      } else {
+        // si malgré tout /api/me ne répond pas, on redirige quand même (option)
+        window.location.href = '/admin.html';
+      }
+    }
+  } catch (err) {
+    document.getElementById('msg').textContent = err.error || 'Échec connexion';
+  }
+});
+</script>
+
+
+</body>
+</html>

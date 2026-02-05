@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OFPPT - Formation Professionnelle Province de Settat</title>
+
+<!-- Feuilles externes existantes -->
+<link rel="stylesheet" href="css/style2.css">
+<link rel="stylesheet" href="css/etablissement.css" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<script src="js/head-foot.js"></script>
+
+</head>
+
+<body>
+
+
+<section class="complexes-container">
+  <h1 class="section-title">Les Complexes OFPPT de la Province de Settat</h1>
+  <div class="section-underline"></div>
+  <div class="ofppt-brief">
+    <p class="ofppt-brief__text">
+      « <strong>Le pôle OFPPT de Settat</strong> est un centre d'excellence reconnu pour la qualité et la diversité de ses formations. Il prépare une main-d'œuvre qualifiée, opérationnelle et adaptable aux exigences du marché du travail. »
+    </p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-target="#settat">Complexe de Formation Settat</button>
+    <button class="tab" data-target="#btp">Ecole Mohammed VI de Formation dans les Métiers du Bâtiment et des Travaux Publics</button>
+    <button class="tab" data-target="#benahmed">Complexe de Formation Ben Ahmed</button>
+  </div>
+
+  <div class="tab-content active" id="settat">
+    <div class="complex-banner settat" style="background-image: url(images/etablissement/settat/complexeSETTAT.png);background-size: cover;background-position: center;height: 500px;position: relative;display: flex;align-items: center;justify-content: center;">
+      <div class="overlay"></div>
+      <div class="banner-text">
+        <h2>Complexe De Formation Settat</h2>
+        <p>Établissements autour de l'industrie, du digital, de la gestion, du bâtiment et des arts culinaires.</p>
+      </div>
+    </div>
+    <div class="establishments-grid">
+      <div class="card" data-etab="ista1_settat" tabindex="0"><h3>ISTA 1 Settat</h3><p>Génie Mécanique, Électricité, Froid & Climatisation…</p></div>
+      <div class="card" data-etab="ista2_settat" tabindex="0"><h3>ISTA NTIC 2 Settat</h3><p>Développement Digital, Réseaux/Systèmes, Support, Hôtellerie…</p></div>
+      <div class="card" data-etab="ita_rahal_el_meskini" tabindex="0"><h3>ITA Rahal El Meskini</h3><p>Menuiserie, Électricité Indus., Mécanique Auto…</p></div>
+      <div class="card" data-etab="centre_mixte_settat" tabindex="0"><h3>Centre Mixte de Formation</h3><p>Infographie, Comptabilité, Gestion, Petite Enfance…</p></div>
+      <div class="card" data-etab="cqp_sidi_abdelkrim" tabindex="0"><h3>CQP Sidi Abdelkrim</h3><p>Électricité d'installation, Maintenance, Sécurité…</p></div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="btp">
+    <div class="complex-banner btp" style="background-image: url(images/etablissement/btp/BTP1.png);background-size: cover;background-position: center;height: 780px;position: relative;display: flex;align-items: center;justify-content: center;">
+      <div class="overlay"></div>
+      <div class="banner-text">
+        <h2>Ecole Mohammed VI de Formation dans les Métiers du Bâtiment et des Travaux Publics</h2>
+        <p>Topographie/implantation, coffrage/ferraillage, gestion de chantier, HSE.</p>
+      </div>
+    </div>
+    <div class="establishments-grid">
+      <div class="card" data-etab="emfmbtp_settat" tabindex="0"><h3>Ecole Mohammed VI de Formation dans les Métiers du Bâtiment et des Travaux Publics</h3><p>Routes & VRD, Topo, Bâtiment, HSE…</p></div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="benahmed">
+    <div class="complex-banner benahmed" style="background-image:url(images/etablissement/benahmed/BENAHMED1.png);background-size: cover;background-position: center;height: 780px;position: relative;display: flex;align-items: center;justify-content: center;">
+      <div class="overlay"></div>
+      <div class="banner-text">
+        <h2>Complexe De Formation Ben Ahmed</h2>
+        <p>Cybersécurité, mécatronique, gestion des entreprises…</p>
+      </div>
+    </div>
+    <div class="establishments-grid">
+      <div class="card" data-etab="ista_benahmed" tabindex="0"><h3>ISTA Ben Ahmed</h3><p>Infrastructure digitale, électromécanique, gestion…</p></div>
+      <div class="card" data-etab="cqp_oulad_mrah" tabindex="0"><h3>CQP Oulad M'rah</h3><p>Élec. bâtiment, construction métallique, soudage…</p></div>
+      <div class="card" data-etab="ista_elbrouj" tabindex="0"><h3>ISTA El Borouj</h3><p>Électricité, Gestion, Menuiserie…</p></div>
+    </div>
+  </div>
+</section>
+
+<div id="etab-modal" class="etab-modal" aria-hidden="true">
+  <div id="modal-backdrop" class="etab-modal__backdrop"></div>
+  <div class="etab-modal__card" role="dialog" aria-modal="true" aria-labelledby="etab-title">
+    <button id="modal-close" class="etab-modal__close" aria-label="Fermer">×</button>
+
+    <div class="modal-head">
+      <div class="head-left">
+        <img id="head-thumb" class="head-thumb" alt="">
+        <div class="head-meta">
+          <h2 id="etab-title" class="modal-title"></h2>
+          <div id="head-chips" class="head-chips"></div>
+        </div>
+      </div>
+      <!-- Internat info section (replaces modal-actions) -->
+      <div id="internat-info" class="internat-info"></div>
+    </div>
+    
+    <section>
+      <div class="modal-body oneview">
+        <div class="oneview-grid">
+          <!-- Colonne gauche : infos + MAP -->
+          <div class="oneview-about">
+            <div class="kv">
+              <div class="k">ID</div><div class="v" id="kv-id"></div>
+              <div class="k">Complexe</div><div class="v" id="kv-complex"></div>
+              <div class="k">Adresse</div><div class="v" id="kv-address"></div>
+              <div class="k">Téléphone</div><div class="v" id="kv-phone"></div>
+              <div class="k">Email</div><div class="v" id="kv-mail"></div>
+              <div class="k">Description</div><div class="v" id="kv-desc"></div>
+            </div>
+
+            <h3 class="block-title" style="margin-top:18px;">Localisation</h3>
+            <iframe
+              id="map-frame"
+              class="map-frame"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen>
+            </iframe>
+          </div>
+
+          <!-- Colonne droite : filières + GALLERY MOVED HERE -->
+          <div class="oneview-right">
+            <h3 class="block-title">Filières proposées</h3>
+            <div id="fil-grid" class="fil-grid"></div>
+
+            <!-- MOVED PREVIEW SLIDER TO HERE (REPLACED GALLERY) -->
+            <div class="gallery-wrapper" id="elbroj-gallery-wrapper">
+              <h3 class="block-title" style="margin-top:18px;">Galerie photo de l'établissement</h3>
+              <div class="preview-slider large-slider">
+                <button class="slider-btn prev" id="slider-prev" type="button">&#10094;</button>
+                <img id="apercu-img" class="preview-img large-preview hide" alt="">
+                <button class="slider-btn next" id="slider-next" type="button">&#10095;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div id="img-lightbox" class="img-lightbox">
+  <button class="lightbox-btn prev" id="lightbox-prev" type="button">&#10094;</button>
+  <button class="lightbox-btn next" id="lightbox-next" type="button">&#10095;</button>
+  <button class="lightbox-close" id="lightbox-close" type="button">&times;</button>
+  <img id="img-lightbox-img" src="" alt="Aperçu photo établissement">
+</div>
+
+<script>
+window.FILIERES_BY_ETAB = {
+  "NSTITUT SPECIALISE DE TECHNOLOGIE APPLIQUEE 1 SETTAT": [
+    "Construction Métallique",
+    "Froid Commercial et Climatisation",
+    "Méthodes en Fabrication Mécanique",
+    "Gestion des Entreprises",
+    "Gestion des Entreprises option Comptabilité et Finance",
+    "Gestion des Entreprises option Commerce et Marketing",
+    "Gestion des Entreprises option Ressources Humaines",
+    "Automatisation et Instrumentation Industrielle",
+    "Electricité de Maintenance Industrielle",
+    "Electromécanique des Systèmes Automatisés",
+    "Réparation des engins à moteurs option Automobile",
+    "Technicien Spécialisé en Diagnostic et Electronique Embarquée",
+        "Certification Microsoft office Specialist en Access",
+    "Certification Microsoft office Spécialiste en Excel",
+    "Certification Microsoft office Spécialiste en Outlook",
+    "Certification Microsoft office Spécialiste en PowerPoint",
+    "Certification Microsoft office Specialist en Word",
+  ],
+  "INSTITUT SPECIALISE DE TECHNOLOGIE APPLIQUEE 2 SETTAT": [
+    "Développement Digital",
+    "Développement Digital option Applications Mobiles",
+    "Développement Digital option Web Full Stack",
+    "Infrastructure Digitale",
+    "Infrastructure Digitale option Systèmes et Réseaux",
+    "Arts culinaires",
+    "Arts culinaires option Cuisine Gastronomique",
+    "Arts culinaires option Cuisine Marocaine",
+    "Agent de Restauration",
+    "Management hôtelier",
+    "Management hôtelier option Gestion hôtelière",
+    "Service de Restauration ''Arts de table''",
+    "Certification Microsoft office Spécialiste en Excel",
+    "Certification Microsoft office Specialist en Word",
+    "Management de projets dans le secteur THR",
+        "Certification Microsoft office Specialist en Access",
+    "Certification Microsoft office Spécialiste en Excel",
+    "Certification Microsoft office Spécialiste en Outlook",
+    "Certification Microsoft office Spécialiste en PowerPoint",
+    "Certification Microsoft office Specialist en Word",
+  ],
+
+  "ECOLE MOHAMMED VI DE FORMATION DANS LES METIERS DU BATIMENT ET DES TRAVAUX PUBLICS SETTAT": [
+    "Génie Civil ",
+    "Génie Civil option Bâtiments",
+    "Génie Civil option Travaux Publics ",
+    "Génie Civil option Méthodes ",
+    "Génie Civil option Laboratoire ",
+    "Géomètre Topographe ",
+    "Maintenance des Engins du BTP ",
+    "Bâtiment ",
+    "Bâtiment option Métreur ",
+    "Bâtiment Option Projeteur ",
+    "Gros œuvre ",
+    "Electricité de Bâtiment ",
+    "Conducteur d'Engins BTP ",
+    "Grutier à Tour et Mobile",
+    "Maintenance des engins lourds et véhicules industriels ",
+    "HSE en BTP ",
+    "Parcours Collégial Electricité de Bâtiment",
+    "Parcours Collégial Peintre",
+    "Parcours Collégial Plombier de bâtiment",
+    "Parcours Collégial Pose de carrelage sol et mur",
+    "Parcours Collégial Tâcheron",
+        "Certification Microsoft office Specialist en Access",
+    "Certification Microsoft office Spécialiste en Excel",
+    "Certification Microsoft office Spécialiste en Outlook",
+    "Certification Microsoft office Spécialiste en PowerPoint",
+    "Certification Microsoft office Specialist en Word",
+  ],
+
+  "INSTITUT DE TECHNOLOGIE APPLIQUEE RAHAL EL MESKINI SETTAT": [
+    "Menuiserie",
+    "Menuiserie Aluminium",
+    "Mécanicien Général Polyvalent",
+    "Fabrication Mécanique",
+    "Electricité d'Entretien Industriel",
+    "Electromécanique",
+    "Electricité de Maintenance Industrielle",
+    "Ouvrier Qualifié en électricité",
+    "Soudage multi procédés",
+    "Réparateur de Véhicules Automobiles",
+    "Réparation des engins à moteurs option Automobile",
+    "Ouvrier Spécialisé en Coupe et Couture",
+        "Certification Microsoft office Specialist en Access",
+    "Certification Microsoft office Spécialiste en Excel",
+    "Certification Microsoft office Spécialiste en Outlook",
+    "Certification Microsoft office Spécialiste en PowerPoint",
+    "Certification Microsoft office Specialist en Word",
+  ],
+  "CENTRE MIXTE DE FORMATION PROFESSIONNELLE SETTAT": [
+    "Infographie",
+    "Agent Socio-Educatif",
+    "Assistant Administratif",
+    "Assistant Administratif option Comptabilité",
+    "Gestion des Entreprises",
+    "Gestion des Entreprises option Comptabilité et Finance",
+    "Educateur Spécialisé dans la Petite Enfance",
+    "Certification Microsoft office Spécialiste en Excel",
+    "Certification Microsoft office Specialist en Word",
+    "Coiffure Femmes",
+        "Certification Microsoft office Specialist en Access",
+    "Certification Microsoft office Spécialiste en Excel",
+    "Certification Microsoft office Spécialiste en Outlook",
+    "Certification Microsoft office Spécialiste en PowerPoint",
+    "Certification Microsoft office Specialist en Word",
+  ],
+  "INSTITUT SPECIALISE DE TECHNOLOGIE APPLIQUEE EL BROUJ": [
+    "Menuiserie",
+    "Menuiserie Aluminium",
+    "Menuiserie option Aluminium et Bois",
+    "Gestion des Entreprises",
+    "Gestion des Entreprises option Comptabilité et Finance",
+    "Electricité de Bâtiment",
+    "Electricité d'Installation",
+    "Electricité de Maintenance Industrielle",
+    "Réparateur de Véhicules Automobiles",
+        "Certification Microsoft office Specialist en Access",
+    "Certification Microsoft office Spécialiste en Excel",
+    "Certification Microsoft office Spécialiste en Outlook",
+    "Certification Microsoft office Spécialiste en PowerPoint",
+    "Certification Microsoft office Specialist en Word",
+  ],
+  "CENTRE DE QUALIFICATION PROFESSIONNELLE OULAD MRAH": [
+    "Menuiserie Aluminium",
+    "Menuiserie Métallique",
+    "Opérateur Polyvalent Construction Métallique",
+    "Electricité de Bâtiment",
+    "Electricité d'Installation",
+        "Certification Microsoft office Specialist en Access",
+    "Certification Microsoft office Spécialiste en Excel",
+    "Certification Microsoft office Spécialiste en Outlook",
+    "Certification Microsoft office Spécialiste en PowerPoint",
+    "Certification Microsoft office Specialist en Word",
+  ],
+  "INSTITUT SPECIALISE DE TECHNOLOGIE APPLIQUEE BEN AHMED": [
+    "Opérateur Polyvalent Construction Métallique",
+    "Bureau d'Etude en Construction Métallique",
+    "Infrastructure Digitale",
+    "Infrastructure Digitale option Cyber sécurité",
+    "Infrastructure Digitale option Systèmes et Réseaux",
+    "Mécanicien Général Polyvalent",
+    "Fabrication Mécanique",
+    "Méthodes en Fabrication Mécanique",
+    "Assistant Administratif",
+    "Assistant Administratif option Commerce",
+    "Assistant Administratif option Gestion",
+    "Gestion des Entreprises",
+    "Gestion des Entreprises option Comptabilité et Finance",
+    "Gestion des Entreprises option Commerce et Marketing",
+    "Gestion des Entreprises option Ressources Humaines",
+    "Electricité d'Installation",
+    "Electricité de Maintenance Industrielle",
+    "Electromécanique des Systèmes Automatisés",
+    "Réparateur de Véhicules Automobiles",
+    "Réparation des engins à moteurs option Automobile",
+    "Technicien Spécialisé en Diagnostic et Electronique Embarquée",
+    "Certification Microsoft office Specialist en Access",
+    "Certification Microsoft office Spécialiste en Excel",
+    "Certification Microsoft office Spécialiste en Outlook",
+    "Certification Microsoft office Spécialiste en PowerPoint",
+    "Certification Microsoft office Specialist en Word",
+    "Réparateur de véhicule automobile (MAALEM)"
+  ]
+};
+
+const DATA = [
+  {
+    id:'ista2_settat',
+    name:'ISTA NTIC 2 Settat',
+    summary:`Digital, réseaux & hôtellerie – تكوين في الرقمنة، الشبكات والسياحة.`,
+    description:`L’ISTA NTIC 2 de Settat est reconnu pour ses formations dans les domaines du digital,
+du développement informatique, des réseaux & systèmes, ainsi que des métiers de l’hôtellerie
+et de la restauration. Grâce à ses laboratoires modernes et à une pédagogie orientée vers
+l’innovation et la pratique, l’établissement prépare des profils hautement qualifiés répondant
+aux besoins technologiques et touristiques du marché national.
+
+المعهد المتخصص للتكنولوجيا التطبيقية NTIC 2 بسطات يعدّ مركزاً مرجعياً في مجالات الرقمنة،
+تطوير البرمجيات، الشبكات والأنظمة، إضافة إلى الفندقة والمطعمة، مما يفتح آفاق إدماج واسعة
+أمام الخريجين في سوق الشغل.`,
+    address:"Route de Casablanca, Quartier Tanmiya,  Settat",
+    phone:'05 23 40 30 84',
+    email:'ista2.settat@ofppt.ma',
+    image:'images/etablissement/settat/ISTA2_9.jpeg',
+    programs:['Développement Digital','Réseaux & Systèmes','Support Technique','Hôtellerie-Restauration'],
+    complex:'settat',
+    mapUrl:'https://maps.google.com/maps?q=ISTA%20NTIC%202%20Settat&z=18&ie=UTF8&output=embed'
+  },
+  {
+    id:'ista1_settat',
+    name:'ISTA 1 Settat',
+    summary:`Pôle industriel (méca, électricité, froid) – قطب للتكوين الصناعي.`,
+    description:`L’Institut Spécialisé de Technologie Appliquée 1 de Settat constitue l’un des centres
+les plus importants de la province dans la formation technique. Il propose des spécialités
+telles que l’électricité industrielle, la mécanique, la maintenance, le froid et la climatisation.
+Grâce à des ateliers équipés et une approche orientée vers la pratique, l’institut forme des
+techniciens opérationnels capables de répondre immédiatement aux besoins de l’industrie.
+
+يعتبر المعهد المتخصص للتكنولوجيا التطبيقية 1 بسطات قطباً أساسياً للتكوين الصناعي، حيث يوفر
+مسالك في الكهرباء الصناعية، الميكانيك، الصيانة الصناعية، والتبريد والتكييف، مع تركيز قوي على
+التطبيق داخل الورشات.`,
+    address:' Rue Des Abattoires , Zone Industrielle , Settat',
+    phone:'05 23 40 30 42',
+    email:'ista1.settat@ofppt.ma',
+    image:'images/etablissement/settat/ista1_5.jpeg',
+    programs:['Génie Mécanique','Électricité Industrielle','Froid et Climatisation','Maintenance Industrielle'],
+    complex:'settat',
+    mapUrl:'https://maps.google.com/maps?q=ISTA%201%20Settat&z=18&ie=UTF8&output=embed'
+  },
+  {
+    id:'ita_rahal_el_meskini',
+    name:'ITA Rahal El Meskini Settat',
+    summary:`Menuiserie, métal & auto – تكوين مهني تقني تطبيقي.`,
+    description:`L’Institut de Technologie Appliquée Rahal El Meskini offre une formation professionnelle
+technique orientée vers la menuiserie aluminium, la construction métallique, la mécanique
+automobile et l’électricité industrielle. L’établissement privilégie l’apprentissage pratique
+en atelier afin de permettre une insertion rapide et efficace sur le marché du travail.
+
+يوفر معهد التكنولوجيا التطبيقية رحال المسكيني تكوينات تقنية في النجارة الألمنيوم، البناء
+الميتالـي، الميكانيك السيارات، والكهرباء الصناعية، مع تركيز كبير على التعلم التطبيقي
+داخل الورشات لضمان إدماج مهني سريع.`,
+    address:'Avenue Rahal El Meskini, Settat',
+    phone:'05 23 72 07 11',
+    email:'it.rahal@ofppt.ma',
+    image:'images/etablissement/settat/ista1_5.jpeg',
+    programs:['Menuiserie Aluminium','Électricité Industrielle','Mécanique Automobile','Construction Métallique'],
+    complex:'settat',
+    mapUrl:'https://maps.google.com/maps?q=ITA%20Rahal%20El%20Meskini%20Settat&z=18&ie=UTF8&output=embed'
+  },
+  {
+    id:'centre_mixte_settat',
+    name:'Centre Mixte de Formation Professionnelle Settat',
+    summary:`Administration, services & petite enfance – تكوين إداري وخدماتي.`,
+    description:`Le Centre Mixte de Settat propose des formations spécialisées dans les domaines
+administratifs, sociaux et créatifs, dont l’infographie, la comptabilité, la gestion
+d’entreprise et l’éducation de la petite enfance. Grâce à un encadrement personnalisé,
+l’établissement contribue au développement de profils polyvalents adaptés au secteur
+des services.
+
+يقدم المركز المختلط للتكوين المهني بسطات مسالك في الإعلاميات التطبيقية، المحاسبة، تسيير
+المقاولات، وتربية الطفولة المبكرة، مع مواكبة فردية تهدف إلى إعداد متدربين ذوي كفاءات
+متعددة في مهن الخدمات.`,
+    address:'Centre-ville de Settat, Boulevard colonel Salah-Eddine',
+    phone:'05 23 40 05 59',
+    email:'centre.mixte@ofppt.ma',
+    image:'images/etablissement/settat/ista1_5.jpeg',
+    programs:['Infographie','Comptabilité','Gestion d’Entreprise','Petite Enfance'],
+    complex:'settat',
+    mapUrl:'https://maps.google.com/maps?q=Centre%20Mixte%20de%20Formation%20Professionnelle%20Settat&z=18&ie=UTF8&output=embed'
+  },
+  {
+    id:'cqp_sidi_abdelkrim',
+    name:'CQP Sidi Abdelkrim (OFPPT) Settat',
+    summary:`Électricité & maintenance – مركز للتأهيل السريع نحو الشغل.`,
+    description:`Le Centre de Qualification Professionnelle Sidi Abdelkrim forme des techniciens qualifiés
+dans l’électricité d’installation, la maintenance industrielle et la sécurité au travail.
+Conçu pour faciliter l’entrée rapide sur le marché de l’emploi, il accueille aussi bien des
+jeunes que des adultes souhaitant se former ou se reconvertir.
+
+يركز مركز التأهيل المهني سيدي عبد الكريم على تكوينات في كهرباء الإنشاءات، الصيانة الصناعية
+وسلامة العمل، مع برامج ملائمة للشباب والراشدين الراغبين في اكتساب مهنة في وقت وجيز.`,
+    address:' quartier Sidi Abdelkrim, Settat',
+    phone:'05 23 40 08 59',
+    email:'cqp.sidiabdelkrim@ofppt.ma',
+    image:'images/etablissement/settat/CQP1.png',
+    programs:['Électricité d’Installation','Maintenance Industrielle','Sécurité au Travail'],
+    complex:'settat',
+    mapUrl:'https://maps.google.com/maps?q=CQP%20Sidi%20Abdelkrim%20Settat&z=18&ie=UTF8&output=embed'
+  },
+  {
+    id:'ista_benahmed',
+    name:'ISTA Ben Ahmed',
+    summary:`Infrastructure digitale & gestion – تكوين حديث لخدمة المقاولات.`,
+    description:`L’Institut Spécialisé de Technologie Appliquée de Ben Ahmed propose une offre diversifiée
+regroupant l’infrastructure digitale, l’électromécanique, la gestion d’entreprise et la
+cybersécurité. Grâce à une pédagogie moderne et des équipements adaptés, il prépare une
+nouvelle génération de techniciens qualifiés répondant aux besoins des entreprises locales
+et nationales.
+
+يوفر المعهد المتخصص للتكنولوجيا التطبيقية ببن أحمد تكوينات في البنيات التحتية الرقمية،
+الإلكتروـميكانيك، تسيير المقاولات والأمن السيبراني، بهدف تأهيل أطر قادرة على مواكبة
+متطلبات سوق الشغل.`,
+    address:'Quartier Administratif, ville de Ben Ahmed',
+    phone:'05 23 40 78 45',
+    email:'ista.benahmed@ofppt.ma',
+    image:'images/etablissement/benahmed/BENAHMED1.jpeg',
+    programs:['Infrastructure Digitale','Électromécanique','Gestion PME-PMI','Cybersécurité'],
+    complex:'benahmed',
+    mapUrl:'https://maps.google.com/maps?q=ISTA%20Ben%20Ahmed&z=18&ie=UTF8&output=embed'
+  },
+  {
+    id:'cqp_oulad_mrah',
+    name:'CQP Oulad M’rah (OFPPT)',
+    summary:`Soudage, construction métallique & électricité – تكوين مهني قريب de l'environnement rural.`,
+    description:`Le Centre de Qualification Professionnelle d’Oulad M’rah offre des formations directement
+axées sur la pratique dans le domaine du soudage, de la construction métallique et de
+l’électricité bâtiment. Il constitue un levier important pour l’insertion professionnelle
+locale, notamment en milieu semi-rural.
+
+يوفر مركز التأهيل المهني بأولاد مراح تكوينات تطبيقية في اللحام، البناء الميتالـي وكهرباء
+البناء، مما يساهم في تحسين فرص التشغيل داخل الوسط القروي والمناطق المجاورة.`,
+    address:'Commune rurale Oulad M’rah, Oulad M’rah, province de Settat',
+    phone:'05 23 40 30 30',
+    email:'cqp.ouladmrah@ofppt.ma',
+    image:'images/etablissement/settat/CQP1.png',
+    programs:['Électricité Bâtiment','Construction Métallique','Soudage'],
+    complex:'benahmed',
+    mapUrl:'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3203.8609857907036!2d-7.2765111421833355!3d32.91389036722145!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda677785dc00001%3A0xd2ccfdce8d143d33!2sCentre%20de%20Qualification!5e1!3m2!1sfr!2sma!4v1763908037375!5m2!1sfr!2sma'
+  },
+  {
+    id:'emfmbtp_settat',
+    name:'EMFMBTP – École Mohammed VI des Métiers du BTP (Settat)',
+    summary:`Pôle BTP, génie civil & HSE – مدرسة رائدة في مهن البناء والأشغال العمومية.`,
+    description:`L’École Mohammed VI des Métiers du Bâtiment et des Travaux Publics constitue un pôle
+d’excellence dans les formations liées au génie civil, à la topographie, à la gestion de
+chantier, à la VRD et à la sécurité industrielle. Son infrastructure modernisée permet une
+formation spécialisée adaptée aux besoins du secteur BTP.
+
+تعد مدرسة محمد السادس لمهن البناء والأشغال العمومية مركزاً متميزاً للتكوين في هندسة
+المدنية، الطبوغرافيا، تدبير الأوراش، الطرق والشبكات، إضافة إلى السلامة المهنية، مع تجهيزات
+حديثة تحاكي واقع المقاولات العاملة في القطاع.`,
+    address:'Douar Laamamcha, commune Mzamza Al Janoubia, province de Settat',
+    phone:'05 22 63 45 47',
+    email:'emfmbtp@ofppt.ma',
+    image:'images/etablissement/btp/BTP1.jpg',
+    programs:['Bâtiment','Travaux Publics','Topographie','Gestion de Chantier','VRD','Maintenance d’Engins'],
+    complex:'settat',
+    mapUrl:'https://maps.google.com/maps?q=EMFMBTP%20Settat&z=18&ie=UTF8&output=embed'
+  },
+  {
+    id:'ista_elbrouj',
+    name:'ISTA El Borouj',
+    summary:`Électricité, gestion & menuiserie – إدماج مهني لخدمة المنطقة.`,
+    description:`L’Institut Spécialisé de Technologie Appliquée El Borouj propose des formations en
+électricité, en gestion et en menuiserie. L’établissement contribue au développement de
+compétences adaptées aux besoins socio-économiques de la région, facilitant l’insertion
+professionnelle locale.
+
+يوفر المعهد المتخصص للتكنولوجيا التطبيقية بالبروج مسالك في الكهرباء، تسيير المقاولات
+والنجارة، مما يساعد على تأهيل شباب المنطقة للاندماج في النسيج الاقتصادي المحلي.`,
+    address:'Quartier Administratif, centre-ville El Borouj, province de Settat',
+    phone:'05 24 23 13 07',
+    email:'ista.elbrouj@ofppt.ma',
+    image:'images/etablissement/benahmed/BROUJ1.jpeg',   
+    programs:['Électricité Industrielle','Gestion PME-PMI','Menuiserie Bois'],
+    complex:'benahmed',
+    mapUrl:'https://maps.google.com/maps?q=ISTA%20El%20Borouj&z=18&ie=UTF8&output=embed'
+  }
+];
+
+// Internat capacity mapping
+const INTERNAT_CAPACITY = {
+  'ista1_settat': 120,
+  'ista_benahmed': 120,
+  'emfmbtp_settat': 440
+};
+
+const ETAB_KEY_MAP = {
+  ista1_settat: 'NSTITUT SPECIALISE DE TECHNOLOGIE APPLIQUEE 1 SETTAT', 
+  ista2_settat: 'INSTITUT SPECIALISE DE TECHNOLOGIE APPLIQUEE 2 SETTAT',
+  emfmbtp_settat: 'ECOLE MOHAMMED VI DE FORMATION DANS LES METIERS DU BATIMENT ET DES TRAVAUX PUBLICS SETTAT',
+  ita_rahal_el_meskini: 'INSTITUT DE TECHNOLOGIE APPLIQUEE RAHAL EL MESKINI SETTAT',
+  centre_mixte_settat: 'CENTRE MIXTE DE FORMATION PROFESSIONNELLE SETTAT',
+  ista_elbrouj: 'INSTITUT SPECIALISE DE TECHNOLOGIE APPLIQUEE EL BROUJ',
+  cqp_oulad_mrah: 'CENTRE DE QUALIFICATION PROFESSIONNELLE OULAD MRAH',
+  ista_benahmed: 'INSTITUT SPECIALISE DE TECHNOLOGIE APPLIQUEE BEN AHMED'
+};
+
+const SECTOR_RULES = [
+  { rx: /(développement|infrastructure|réseaux|systèmes|cyber|digital|microsoft|support)/i, sector: "Digital & IT" },
+  { rx: /(gestion|administratif|comptabilit|marketing|ressources humaines|assistant)/i, sector: "Gestion & Administration" },
+  { rx: /(électricit|électromécanique|automatis|instrumentation|syst(è|e)mes automatis|maintenance industrielle)/i, sector: "Électricité & Automatismes" },
+  { rx: /(fabrication mécanique|mécanique|construction métallique|soudage|bureau d'?étude)/i, sector: "Mécanique & Métal" },
+  { rx: /(froid|climatisation)/i, sector: "Froid & Climatisation" },
+  { rx: /(réparat(eur|rice)|engins|automobile|diagnostic|embarquée)/i, sector: "Automobile" },
+  { rx: /(bâtiment|g(é|e)nie civil|gros œuvres|topograph|vrd|grutier|m(é|e)treur|voirie|carrelage|hse)/i, sector: "BTP & Génie civil" },
+  { rx: /(arts culinaires|restauration|housekeeping|h(ô|o)teli)/i, sector: "Tourisme & Hôtellerie-Restauration" },
+  { rx: /(infograph|coiffure|petite enfance|agent socio|menuiserie|couture|formation qualifiante)/i, sector: "Services & Métiers" }
+];
+
+function sectorsFromPrograms(programs = []) {
+  const found = new Set();
+  for (const p of programs) {
+    for (const rule of SECTOR_RULES) {
+      if (rule.rx.test(p)) found.add(rule.sector);
+    }
+  }
+  return Array.from(found).sort((a,b)=>a.localeCompare(b,'fr'));
+}
+
+const $ = (s,root=document)=>root.querySelector(s);
+const tel = v => 'tel:'+String(v||'').replace(/\s+/g,'');
+const mail = v => 'mailto:'+(v||'');
+
+const gmapDir = e => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(e.address||'')}`;
+
+const gmapEmbed = (e) => {
+  if (e.mapUrl) { try { return new URL(e.mapUrl).toString(); } catch {} }
+  const parts = [e.name, e.address, 'Settat, Maroc'].filter(Boolean).join(', ');
+  const q = encodeURIComponent(parts);
+  return `https://maps.google.com/maps?q=${q}&z=18&ie=UTF8&output=embed`;
+};
+
+function attachFilieresFromSource(etab){
+  const src = window.FILIERES_BY_ETAB || {};
+  const key = ETAB_KEY_MAP[etab.id];
+  const list = key && src[key];
+  if (Array.isArray(list) && list.length){
+    const unique = Array.from(new Set(list.map(s => String(s).trim()))).sort((a,b)=>a.localeCompare(b,'fr'));
+    etab.programs = unique;
+  }
+}
+
+const modal = $('#etab-modal');
+const backdrop = $('#modal-backdrop');
+const closeBtn = $('#modal-close');
+
+const M = {
+  title: $('#etab-title'),
+  internatInfo: $('#internat-info'),
+  headThumb: $('#head-thumb'),
+  headChips: $('#head-chips'),
+  img:   $('#apercu-img'),
+  kvId:  $('#kv-id'),
+  kvCx:  $('#kv-complex'),
+  kvAdr: $('#kv-address'),
+  kvPh:  $('#kv-phone'),
+  kvMl:  $('#kv-mail'),
+  kvDs:  $('#kv-desc'),
+  filGrid: $('#fil-grid'),
+  map:   $('#map-frame'),
+  elbWrap: $('#elbroj-gallery-wrapper'),
+  lb: $('#img-lightbox'),
+  lbImg: $('#img-lightbox-img'),
+  sliderPrev: $('#slider-prev'),
+  sliderNext: $('#slider-next'),
+  lightboxPrev: $('#lightbox-prev'),
+  lightboxNext: $('#lightbox-next'),
+  lightboxClose: $('#lightbox-close')
+};
+let currentPhotos = [];
+let currentPhotoIndex = 0;
+
+function updateSlider() {
+  if (!M.img) return;
+
+  if (!currentPhotos || !currentPhotos.length) {
+    M.img.classList.add('hide');
+    if (M.sliderPrev) M.sliderPrev.style.display = 'none';
+    if (M.sliderNext) M.sliderNext.style.display = 'none';
+    return;
+  }
+
+  // sécurité au cas où
+  if (currentPhotoIndex < 0 || currentPhotoIndex >= currentPhotos.length) {
+    currentPhotoIndex = 0;
+  }
+
+  const alt = M.title ? (M.title.textContent || 'Photo établissement') : 'Photo établissement';
+  setImgSafe(M.img, currentPhotos[currentPhotoIndex], alt);
+  M.img.classList.remove('hide');
+
+  const showControls = currentPhotos.length > 1;
+  if (M.sliderPrev) M.sliderPrev.style.display = showControls ? 'flex' : 'none';
+  if (M.sliderNext) M.sliderNext.style.display = showControls ? 'flex' : 'none';
+}
+
+function setSliderPhotos(photosArr, fallbackImage, alt) {
+  if (Array.isArray(photosArr) && photosArr.length) {
+    currentPhotos = photosArr.slice();
+  } else if (fallbackImage) {
+    currentPhotos = [fallbackImage];
+  } else {
+    currentPhotos = [];
+  }
+  currentPhotoIndex = 0;
+  updateSlider();
+}
+
+if (M.sliderPrev && M.sliderNext) {
+  M.sliderPrev.addEventListener('click', () => {
+    if (!currentPhotos.length) return;
+    currentPhotoIndex = (currentPhotoIndex - 1 + currentPhotos.length) % currentPhotos.length;
+    updateSlider();
+  });
+
+  M.sliderNext.addEventListener('click', () => {
+    if (!currentPhotos.length) return;
+    currentPhotoIndex = (currentPhotoIndex + 1) % currentPhotos.length;
+    updateSlider();
+  });
+}
+
+function setImgSafe(el, src, altText){
+  if (!el) return;
+  el.loading = 'lazy';
+  el.decoding = 'async';
+  el.referrerPolicy = 'no-referrer';
+  el.onerror = () => {
+    el.removeAttribute('src');
+    const svg = encodeURIComponent(
+      `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 300'>
+         <rect width='100%' height='100%' fill='#eef1f6'/>
+         <g fill='#cdd6e3'>
+           <rect x='30' y='40' width='240' height='160' rx='12'/>
+           <circle cx='120' cy='120' r='28'/>
+           <rect x='30' y='220' width='180' height='160' rx='8'/>
+         </g>
+       </svg>`
+    );
+    el.style.backgroundImage = `url("data:image/svg+xml,${svg}")`;
+    el.style.backgroundSize = 'cover';
+    el.style.backgroundPosition = 'center';
+  };
+  el.src = src || '';
+  el.alt = (altText || 'photo');
+}
+
+function openById(id){
+  const e = DATA.find(x=>x.id===id); if(!e) return;
+
+  attachFilieresFromSource(e);
+  currentPhotos = [];
+  currentPhotoIndex = 0;
+
+  const sectors = sectorsFromPrograms(e.programs || []);
+  M.headChips.innerHTML = (sectors.length ? sectors : ["Secteur non renseigné"])
+    .slice(0,6)
+    .map(s=>`<span class="chip">${s}</span>`).join('');
+
+  M.title.textContent = e.name || '';
+
+  // Display internat badge if establishment has capacity
+  const internatCapacity = INTERNAT_CAPACITY[e.id];
+  if (internatCapacity) {
+    M.internatInfo.innerHTML = `
+      <div class="internat-badge">
+        <i class="fa-solid fa-bed"></i>
+        Internat: ${internatCapacity} places
+      </div>
+    `;
+    M.internatInfo.style.display = 'flex';
+  } else {
+    M.internatInfo.innerHTML = '';
+    M.internatInfo.style.display = 'none';
+  }
+
+  // Fix image path for headThumb based on establishment ID
+  let headThumbSrc = e.image;
+
+  // Map each establishment to its correct image path
+  const imagePathMap = {
+      'ista1_settat': 'images/etablissement/settat/ista1.jpg',
+      'ista2_settat': 'images/etablissement/settat/ISTA2_7.png',
+      'ita_rahal_el_meskini': 'images/header/ofppt-logo1.svg',
+      'centre_mixte_settat': 'images/etablissement/settat/CM1.jpg',
+      'cqp_sidi_abdelkrim': 'images/header/ofppt-logo1.svg',
+      'ista_benahmed': 'images/etablissement/benahmed/BENAHMED1.png',
+      'cqp_oulad_mrah': 'images/etablissement/benahmed/CQP1.jpg',
+      'emfmbtp_settat': 'images/etablissement/btp/BTP1.png',
+      'ista_elbrouj': 'images/etablissement/benahmed/BROUJ1.jpeg'
+  };
+
+  // Use the mapped path or fallback to the original image
+  headThumbSrc = imagePathMap[e.id] || e.image;
+
+  setImgSafe(M.headThumb, headThumbSrc, e.name);
+
+  M.kvId.textContent  = e.id || '';
+  M.kvCx.textContent  = (e.complex||'').toUpperCase();
+  M.kvAdr.textContent = e.address || '';
+  M.kvPh.innerHTML    = e.phone ? `<a href="${tel(e.phone)}">${e.phone}</a>` : '—';
+  M.kvMl.innerHTML    = e.email ? `<a href="${mail(e.email)}">${e.email}</a>` : '—';
+
+  // FR + AR : séparation automatique en blocs avec badges
+  const rawDesc = e.description || '';
+  const lines = rawDesc.split('\n').filter(l => l.trim() !== '');
+  M.kvDs.innerHTML = lines.map(line => {
+    const isArabic = /[\u0600-\u06FF]/.test(line);
+    const cls = isArabic ? 'ar' : 'fr';
+    return `<p class="${cls}">${line}</p>`;
+  }).join('');
+
+  M.filGrid.innerHTML = (e.programs||[]).map(p=>`<div class="fil-item">${p}</div>`).join('') || '<em>Aucune filière renseignée.</em>';
+
+  M.map.src = gmapEmbed(e);
+
+  // Galerie photo (ISTA El Borouj, ISTA Ben Ahmed, CQP Oulad M'rah, EMFMBTP, ...)
+  if (M.elbWrap) {
+    let photos = [];
+
+    if (e.id === 'ista_elbrouj') {
+      photos = [
+        'images/etablissement/benahmed/BROUJ1.jpeg',
+        'images/etablissement/benahmed/BROUJ2.png',
+        'images/etablissement/benahmed/BROUJ3.png',
+        'images/etablissement/benahmed/BROUJ4.png',
+        'images/etablissement/benahmed/BROUJ5.png',
+        'images/etablissement/benahmed/BROUJ6.png',
+      ];
+    } else if (e.id === 'ista_benahmed') {
+      photos = [
+        'images/etablissement/benahmed/BENAHMED1.png',
+        'images/etablissement/benahmed/BENAHMED2.png',
+        'images/etablissement/benahmed/BENAHMED3.png',
+        'images/etablissement/benahmed/BENAHMED4.png',
+        'images/etablissement/benahmed/BENAHMED5.png',
+        'images/etablissement/benahmed/BENAHMED6.png'
+      ];
+    } else if (e.id === 'cqp_oulad_mrah') {
+      photos = [
+        'images/etablissement/benahmed/CQP1.jpg',
+        'images/etablissement/benahmed/CQP2.jpg',
+        'images/etablissement/benahmed/CQP3.png',
+        'images/etablissement/benahmed/CQP4.jpg'
+      ];
+    } else if (e.id === 'emfmbtp_settat') {
+      photos = [
+        'images/etablissement/btp/BTP1.png',
+        'images/etablissement/btp/BTP2.png',
+        'images/etablissement/btp/BTP3.png',
+        'images/etablissement/btp/BTP4.png',
+        'images/etablissement/btp/BTP5.png',
+        'images/etablissement/btp/BTP6.png',
+        'images/etablissement/btp/BTP7.png',
+        'images/etablissement/btp/BTP8.png',
+        'images/etablissement/btp/BTP9.png',
+        'images/etablissement/btp/BTP10.png',
+        'images/etablissement/btp/BTP11.png',
+        'images/etablissement/btp/BTP12.png',
+        'images/etablissement/btp/BTP13.png',
+        'images/etablissement/btp/BTP14.png'  
+      ];
+    } else if (e.id === 'ista1_settat') {
+      photos = [
+        'images/etablissement/settat/ista1.jpg',
+        'images/etablissement/settat/ista_1_1.jpg',
+        'images/etablissement/settat/ista_1_2.png',
+        'images/etablissement/settat/ista_1_3.jpg',
+        'images/etablissement/settat/ista_1_4.jpg',
+        'images/etablissement/settat/ista_1_5.jpg',
+        'images/etablissement/settat/ista_1_6.jpg',
+        'images/etablissement/settat/ista_1_7.jpg',
+        'images/etablissement/settat/ista_1_8.jpg',
+        'images/etablissement/settat/ista_1_9.jpg',
+        'images/etablissement/settat/ista_1_10.png',
+        'images/etablissement/settat/ista_1_11.jpg',
+        'images/etablissement/settat/ista_1_12.jpg'
+      ];
+    }
+    else if (e.id === 'ista2_settat') {
+      photos = [
+        'images/etablissement/settat/ISTA2_7.png',
+        'images/etablissement/settat/ISTA2_1.png',
+        'images/etablissement/settat/ISTA2_6.png',
+        'images/etablissement/settat/ISTA2_5.png',
+        'images/etablissement/settat/ISTA2_4.png',
+        'images/etablissement/settat/ISTA2_3.png',
+        'images/etablissement/settat/ISTA2_2.png'
+      ];
+    }
+    else if (e.id === 'centre_mixte_settat') {
+      photos = [
+        'images/etablissement/settat/CM1.jpg',
+        'images/etablissement/settat/CM2.jpeg',
+        'images/etablissement/settat/CM3.jpeg',
+        'images/etablissement/settat/CM4.jpeg',
+        'images/etablissement/settat/CM5.jpeg',
+        'images/etablissement/settat/CM6.jpg',
+        'images/etablissement/settat/CM7.jpg',
+        'images/etablissement/settat/CM8.jpg',
+        'images/etablissement/settat/CM9.jpg',
+        'images/etablissement/settat/CM10.jpg',
+        'images/etablissement/settat/CM11.jpg',
+        'images/etablissement/settat/CM12.jpg',
+        'images/etablissement/settat/CM13.jpg'
+      ];
+    }
+
+    if (photos.length) {
+      M.elbWrap.style.display = 'block';
+    } else {
+      M.elbWrap.style.display = 'none';
+    }
+
+    // Set slider photos
+    setSliderPhotos(photos, e.image, e.name);
+  } else {
+    // cas où la galerie n'existe pas dans le DOM (sécurité)
+    setSliderPhotos([], e.image, e.name);
+  }
+
+  modal.classList.add('show');
+  modal.setAttribute('aria-hidden','false');
+  document.documentElement.style.overflow='hidden';
+  document.body.classList.add('modal-open');
+  
+  const footer = document.querySelector('.footer-ofppt');
+  const chatbot = document.querySelector('#chatbot-container');
+  if (footer) footer.style.display = 'none';
+  if (chatbot) chatbot.style.display = 'none';
+}
+
+function closeModal(){
+  modal.classList.remove('show');
+  modal.setAttribute('aria-hidden','true');
+  document.documentElement.style.overflow = '';
+  document.body.classList.remove('modal-open');
+  
+  const footer = document.querySelector('.footer-ofppt');
+  const chatbot = document.querySelector('#chatbot-container');
+  if (footer) footer.style.display = 'block';
+  if (chatbot) chatbot.style.display = 'block';
+}
+
+// Lightbox pour la galerie + image du slider
+if (M.lb && M.lbImg) {
+  // Open lightbox when clicking on the main image
+  document.addEventListener('click', (ev) => {
+    const mainImgClick = ev.target.closest && ev.target.closest('.preview-img.large-preview');
+      
+    if (mainImgClick) {
+      const img = ev.target.closest('img');
+      M.lbImg.src = img.src;
+      M.lb.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    } else if (ev.target === M.lb) {
+      closeLightbox();
+    }
+  });
+
+  // Close lightbox with close button
+  if (M.lightboxClose) {
+    M.lightboxClose.addEventListener('click', closeLightbox);
+  }
+
+  // Navigate in lightbox with buttons
+  if (M.lightboxPrev && M.lightboxNext) {
+    M.lightboxPrev.addEventListener('click', () => {
+      if (!currentPhotos.length) return;
+      currentPhotoIndex = (currentPhotoIndex - 1 + currentPhotos.length) % currentPhotos.length;
+      M.lbImg.src = currentPhotos[currentPhotoIndex];
+    });
+
+    M.lightboxNext.addEventListener('click', () => {
+      if (!currentPhotos.length) return;
+      currentPhotoIndex = (currentPhotoIndex + 1) % currentPhotos.length;
+      M.lbImg.src = currentPhotos[currentPhotoIndex];
+    });
+  }
+
+  // Keyboard navigation for lightbox
+  document.addEventListener('keydown', (ev) => {
+    if (M.lb.classList.contains('show')) {
+      if (ev.key === 'Escape') {
+        closeLightbox();
+      } else if (ev.key === 'ArrowLeft') {
+        if (M.lightboxPrev) M.lightboxPrev.click();
+      } else if (ev.key === 'ArrowRight') {
+        if (M.lightboxNext) M.lightboxNext.click();
+      }
+    }
+  });
+}
+
+function closeLightbox() {
+  M.lb.classList.remove('show');
+  M.lbImg.src = '';
+  document.body.style.overflow = '';
+}
+
+// Tabs
+const tabs = document.querySelectorAll('.tab');
+const contents = document.querySelectorAll('.tab-content');
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    contents.forEach(c => c.classList.remove('active'));
+    document.querySelector(tab.dataset.target).classList.add('active');
+    window.scrollTo({ top: 200, behavior: 'smooth' });
+  });
+});
+
+// Card animation + résumé auto
+const cards = document.querySelectorAll('.card');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.2 });
+cards.forEach(card => observer.observe(card));
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.card[data-etab]').forEach(card => {
+    card.classList.add('visible');
+    const id = card.getAttribute('data-etab');
+    const etab = DATA.find(x=>x.id === id);
+    if (!etab) return;
+    let p = card.querySelector('p');
+    if (!p) {
+      p = document.createElement('p');
+      card.appendChild(p);
+    }
+    p.textContent = etab.summary || etab.name;
+  });
+});
+
+// Click / clavier
+document.addEventListener('click', (ev)=>{
+  const card = ev.target.closest && ev.target.closest('.card[data-etab]');
+  if(!card) return;
+  openById(card.getAttribute('data-etab'));
+});
+document.addEventListener('keydown', (ev)=>{
+  if(ev.key!=='Enter') return;
+  const el = document.activeElement;
+  if(el && el.matches('.card[data-etab]')) openById(el.getAttribute('data-etab'));
+});
+backdrop.addEventListener('click', closeModal);
+closeBtn.addEventListener('click', closeModal);
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+</script>
+
+
+<script>
+  const chatbotBubble = document.getElementById("chatbot-bubble");
+  const chatbotCard = document.getElementById("chatbot-card");
+  const closeChatbot = document.getElementById("close-chatbot");
+
+  if (chatbotBubble && chatbotCard && closeChatbot) {
+    chatbotBubble.addEventListener("click", () => {
+      chatbotCard.classList.toggle("visible");
+    });
+
+    closeChatbot.addEventListener("click", () => {
+      chatbotCard.classList.remove("visible");
+    });
+  }
+</script>
+</body>
+</html>
