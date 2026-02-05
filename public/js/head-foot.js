@@ -88,7 +88,7 @@
                             </div>
 
                             <div class="menu-item">
-                                <a href="espaceStagiaire.html" class="nav-link">Espace stagiaires</a>
+                                <a href="espacestagiaire.html" class="nav-link">Espace stagiaires</a>
                             </div>
 
                             <div class="menu-item">

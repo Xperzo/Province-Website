@@ -864,12 +864,23 @@ body[data-page="public"] .actus-resume {
   pointer-events: auto;
 }
 
+.event-gallery-item {
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.event-gallery-item:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
 .event-gallery-overlay img {
   max-width: min(1200px, 92vw);
   max-height: 92vh;
   border-radius: 20px;
   box-shadow: 0 30px 80px rgba(15, 23, 42, 0.95);
   object-fit: contain;
+  cursor: pointer;
 }
 
 .event-gallery-overlay::after {

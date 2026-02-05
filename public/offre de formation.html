@@ -62,26 +62,57 @@
       <img id="modal-content" class="modal-content" src="" alt="">
     </div>
 
-    <!-- Script pour modal image -->
+    <!-- Fixed Script pour modal image -->
     <script>
-      const modal = document.getElementById("image-modal");
-      const modalImg = document.getElementById("modal-content");
-      const closeModal = document.getElementById("close-modal");
-      const image = document.querySelector(".ofppt-parcours-image");
+      document.addEventListener('DOMContentLoaded', function() {
+        // Modal elements
+        const modal = document.getElementById("image-modal");
+        const modalImg = document.getElementById("modal-content");
+        const closeModal = document.getElementById("close-modal");
+        const image = document.querySelector(".ofppt-parcours-image");
 
-      closeModal.addEventListener("click", () => {
-        modal.style.display = "none";
-        document.body.style.overflow = "";
-      });
-
-      modal.addEventListener("click", (e) => {
-        if (e.target === modal) {
-          closeModal.click();
+        // Close modal function
+        function closeImageModal() {
+          if (modal) {
+            modal.style.display = "none";
+            document.body.style.overflow = "";
+          }
         }
-      });
 
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeModal.click();
+        // Close modal when X is clicked
+        if (closeModal) {
+          closeModal.addEventListener("click", closeImageModal);
+        }
+
+        // Close modal when clicking outside the image
+        if (modal) {
+          modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+              closeImageModal();
+            }
+          });
+        }
+
+        // Close modal with Escape key
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && modal && modal.style.display === "flex") {
+            closeImageModal();
+          }
+        });
+
+        // Add click event to zoom image
+        if (image) {
+          image.style.cursor = 'zoom-in';
+          
+          image.addEventListener('click', function() {
+            if (modal && modalImg) {
+              modalImg.src = this.src;
+              modalImg.alt = this.alt;
+              modal.style.display = 'flex';
+              document.body.style.overflow = 'hidden';
+            }
+          });
+        }
       });
     </script>
 
@@ -212,8 +243,6 @@
           justify-content: space-between;
           align-items: center;
         }
-        
-
       `;
       document.head.appendChild(style);
     </script>
@@ -388,14 +417,13 @@
               <figure class="photo-card"><img src="https://www.myway.ac.ma/_next/image?url=%2Fimages%2Ffiliere-image6.png&w=256&q=75" alt=""></figure>
             </div>
           </div>
-          
-          
         </section>
+        
         <div class="tracks-intro__cta">
-            <a href="Formations.html" class="btn-primary btn-lg">
-              Découvrez nos formations
-            </a>
-          </div>
+          <a href="Formations.html" class="btn-primary btn-lg">
+            Découvrez nos formations
+          </a>
+        </div>
       </div>
     </section>
 
@@ -441,98 +469,17 @@
       const chatbotCard = document.getElementById("chatbot-card");
       const closeChatbot = document.getElementById("close-chatbot");
 
-      chatbotBubble.addEventListener("click", () => {
-        chatbotCard.classList.toggle("visible");
-      });
+      if (chatbotBubble && chatbotCard) {
+        chatbotBubble.addEventListener("click", () => {
+          chatbotCard.classList.toggle("visible");
+        });
+      }
 
-      closeChatbot.addEventListener("click", () => {
-        chatbotCard.classList.remove("visible");
-      });
-
-      // Zoom image parcours
-      document.addEventListener('DOMContentLoaded', function() {
-        const parcourImage = document.querySelector('.ofppt-parcours-image');
-        
-        if (parcourImage) {
-          parcourImage.style.cursor = 'zoom-in';
-          
-          parcourImage.addEventListener('click', function() {
-            let modal = document.getElementById('image-modal');
-            
-            if (!modal) {
-              modal = document.createElement('div');
-              modal.id = 'image-modal';
-              modal.className = 'image-modal';
-              modal.style.cssText = `
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.9);
-                z-index: 1000;
-                justify-content: center;
-                align-items: center;
-                cursor: zoom-out;
-              `;
-              
-              const closeBtn = document.createElement('span');
-              closeBtn.id = 'close-modal';
-              closeBtn.innerHTML = '&times;';
-              closeBtn.style.cssText = `
-                position: absolute;
-                top: 20px;
-                right: 30px;
-                color: white;
-                font-size: 40px;
-                font-weight: bold;
-                cursor: pointer;
-                z-index: 1001;
-              `;
-              
-              const modalImg = document.createElement('img');
-              modalImg.id = 'modal-content';
-              modalImg.className = 'modal-content';
-              modalImg.style.cssText = `
-                max-width: 90%;
-                max-height: 90%;
-                object-fit: contain;
-                border-radius: 5px;
-              `;
-              
-              modal.appendChild(closeBtn);
-              modal.appendChild(modalImg);
-              document.body.appendChild(modal);
-              
-              closeBtn.addEventListener('click', function() {
-                modal.style.display = 'none';
-                document.body.style.overflow = '';
-              });
-              
-              modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                  modal.style.display = 'none';
-                  document.body.style.overflow = '';
-                }
-              });
-              
-              document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && modal.style.display === 'flex') {
-                  modal.style.display = 'none';
-                  document.body.style.overflow = '';
-                }
-              });
-            }
-            
-            const modalImg = document.getElementById('modal-content');
-            modalImg.src = this.src;
-            modalImg.alt = this.alt;
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-          });
-        }
-      });
+      if (closeChatbot) {
+        closeChatbot.addEventListener("click", () => {
+          chatbotCard.classList.remove("visible");
+        });
+      }
     </script>
 
     <script src="js/admin-mode.js"></script>

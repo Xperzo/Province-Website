@@ -284,8 +284,35 @@ function escapeHtml(str){
   });
 }
 
+/* Counter animation for stats */
+function animateCounter(element, target) {
+  const duration = 2000;
+  const steps = 60;
+  const stepValue = target / steps;
+  let current = 0;
+  const interval = duration / steps;
+  
+  const timer = setInterval(() => {
+    current += stepValue;
+    if (current >= target) {
+      element.textContent = Math.floor(target);
+      clearInterval(timer);
+    } else {
+      element.textContent = Math.floor(current);
+    }
+  }, interval);
+}
+
 /* Lancer l'affichage (si tu veux auto) */
-document.addEventListener('DOMContentLoaded', function(){ loadNews(); });
+document.addEventListener('DOMContentLoaded', function(){ 
+  loadNews();
+  
+  // Animate stat counters
+  document.querySelectorAll('.event-stat-number').forEach(el => {
+    const target = parseInt(el.getAttribute('data-target')) || 0;
+    animateCounter(el, target);
+  });
+});
 </script>
 
 </body>

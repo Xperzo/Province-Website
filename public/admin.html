@@ -119,8 +119,16 @@
 <script src="/js/storage-shim.js"></script>
 
 <script>
-// Wrap everything in DOMContentLoaded to ensure elements exist
-window.addEventListener('DOMContentLoaded', () => {
+// AUTH PROTECTION: Redirect to login if not authenticated
+window.addEventListener('DOMContentLoaded', async () => {
+  // Check if user is logged in
+  const token = localStorage.getItem('auth_token');
+  if (!token) {
+    // Redirect to login page
+    window.location.href = '/login.html';
+    return;
+  }
+  
   // reuse helper preview from original admin
   function makePreview(file) {
     const url = URL.createObjectURL(file);
