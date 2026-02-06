@@ -323,7 +323,28 @@ app.post('/api/reset-password', async (req, res) => {
 
 /* ----------------- Serve specific pages (optional) ----------------- */
 app.get('/login.html', (req,res)=>res.sendFile(path.join(__dirname,'public','login.html')));
-app.get('/admin.html', (req,res)=>res.sendFile(path.join(__dirname,'public','admin.html')));
+
+// Protect admin.html - require authentication (redirect to login if not authenticated)
+app.get('/admin.html', (req, res) => {
+  // Check for JWT token in header or session
+  const auth = (req.headers.authorization || '').trim();
+  let isAuthenticated = false;
+  
+  if (auth && auth.toLowerCase().startsWith('bearer ')) {
+    const token = auth.slice(7).trim();
+    if (verifyToken(token)) isAuthenticated = true;
+  }
+  
+  // Also check session
+  if (req.session && req.session.userId) isAuthenticated = true;
+  
+  if (!isAuthenticated) {
+    return res.redirect('/login.html');
+  }
+  
+  res.sendFile(path.join(__dirname,'public','admin.html'));
+});
+
 app.get('/', (req,res)=>res.sendFile(path.join(__dirname,'public','login.html')));
 
 // Ajoutez cette route dans server.js
