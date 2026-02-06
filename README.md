@@ -1,4 +1,4 @@
-# Actualités & Gestion de Formations - OFPPT
+# Province Website - OFPPT
 
 This is a Node.js project for OFPPT institutions.
 
@@ -22,8 +22,3 @@ You can start editing by modifying the files in `public/` and `server.js`. The s
 - [Node.js Documentation](https://nodejs.org/en/docs/)
 - [Express.js Guide](https://expressjs.com/)
 - [JWT Documentation](https://jwt.io/)
-
----
-
-**Status**: ✅ Production Ready  
-**Last Updated**: February 5, 2026
