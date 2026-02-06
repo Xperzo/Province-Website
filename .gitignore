@@ -7,7 +7,6 @@ users.json.tmp
 .env
 .env.local
 .env*.local
-uploads/
 .DS_Store
 .vscode/
 *.swp
