@@ -146,7 +146,7 @@
                     <div class="footer-column">
                         <h3>Ressources</h3>
                         <ul>
-                            <li><a href="stagiaires.html">Espace Stagiaire</a></li>
+                            <li><a href="espacestagiaire.html">Espace Stagiaire</a></li>
                             <li><a href="https://www.ofppt.ma/sites/default/files/publications/EXE-Guides%20CS-A4%202023.pdf">Documents</a></li>
                             <li><a href="https://www.scholarvox.com" target="_blank">ScholarVox</a></li>
                             <li><a href="https://www.myway.ac.ma/fr" target="_blank">MyWay</a></li>
