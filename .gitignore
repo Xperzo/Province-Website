@@ -11,3 +11,4 @@ users.json.tmp
 .vscode/
 *.swp
 *.swo
+hash.js
