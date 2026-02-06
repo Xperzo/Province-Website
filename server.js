@@ -345,6 +345,10 @@ app.get('/admin.html', (req, res) => {
   res.sendFile(path.join(__dirname,'public','admin.html'));
 });
 
+// Handle case-insensitive routes for Formations.html
+app.get('/Formations.html', (req,res)=>res.sendFile(path.join(__dirname,'public','formations.html')));
+app.get('/formations.html', (req,res)=>res.sendFile(path.join(__dirname,'public','formations.html')));
+
 app.get('/', (req,res)=>res.sendFile(path.join(__dirname,'public','login.html')));
 
 // Ajoutez cette route dans server.js
