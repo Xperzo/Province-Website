@@ -8,33 +8,100 @@ require('dotenv').config();
 
 // Use writable directory: environment variable, or /tmp on containerized platforms, or app directory
 const DATA_DIR = process.env.DATA_DIR || (process.env.NODE_ENV === 'production' ? '/tmp' : __dirname);
-const DATA_FILE = path.join(DATA_DIR, 'data.json');
-const TMP_FILE = path.join(DATA_DIR, 'data.json.tmp');
+
+// Separate files: actualites (can be pushed to GitHub) and users (private, git-ignored)
+const ACTUALITES_FILE = path.join(__dirname, 'actualites.json');  // In project dir, can be pushed
+const USERS_FILE = path.join(DATA_DIR, 'users.json');  // In writable dir, git-ignored
+const USERS_TMP_FILE = path.join(DATA_DIR, 'users.json.tmp');
+
+// Legacy support - old data.json location
+const LEGACY_DATA_FILE = path.join(DATA_DIR, 'data.json');
+
 const DEFAULT_PASSWORD = process.env.ADMIN_PASSWORD || 'admin';
 
 async function fileExists(p){ try { await fs.access(p); return true; } catch(e){ return false; } }
 
-async function readData(){
+// Read actualites from separate file (or legacy data.json)
+async function readActualites(){
   try {
-    if (!await fileExists(DATA_FILE)) return { actualites: [], users: [] };
-    const txt = await fs.readFile(DATA_FILE, 'utf8');
-    return txt ? JSON.parse(txt) : { actualites: [], users: [] };
+    // First check if we have the new separate file
+    if (await fileExists(ACTUALITES_FILE)) {
+      const txt = await fs.readFile(ACTUALITES_FILE, 'utf8');
+      const data = txt ? JSON.parse(txt) : { actualites: [] };
+      return Array.isArray(data.actualites) ? data.actualites : [];
+    }
+    // Fallback to legacy data.json
+    if (await fileExists(LEGACY_DATA_FILE)) {
+      const txt = await fs.readFile(LEGACY_DATA_FILE, 'utf8');
+      const data = txt ? JSON.parse(txt) : { actualites: [] };
+      return Array.isArray(data.actualites) ? data.actualites : [];
+    }
+    return [];
   } catch (e) {
-    console.error('readData error', e);
+    console.error('readActualites error', e);
+    return [];
+  }
+}
+
+// Write actualites to separate file (in project dir, can be pushed)
+async function writeActualites(actualites){
+  try {
+    const txt = JSON.stringify({ actualites }, null, 2);
+    const tmpFile = ACTUALITES_FILE + '.tmp';
+    await fs.writeFile(tmpFile, txt, 'utf8');
+    await fs.rename(tmpFile, ACTUALITES_FILE);
+    return true;
+  } catch (e) {
+    console.error('writeActualites error', e);
     throw e;
   }
 }
 
-async function writeData(data){
+// Read users from separate file (private, in writable dir)
+async function readUsers(){
   try {
-    const txt = JSON.stringify(data, null, 2);
-    await fs.writeFile(TMP_FILE, txt, 'utf8');
-    await fs.rename(TMP_FILE, DATA_FILE);
+    if (await fileExists(USERS_FILE)) {
+      const txt = await fs.readFile(USERS_FILE, 'utf8');
+      const data = txt ? JSON.parse(txt) : { users: [] };
+      return Array.isArray(data.users) ? data.users : [];
+    }
+    // Fallback to legacy data.json
+    if (await fileExists(LEGACY_DATA_FILE)) {
+      const txt = await fs.readFile(LEGACY_DATA_FILE, 'utf8');
+      const data = txt ? JSON.parse(txt) : { users: [] };
+      return Array.isArray(data.users) ? data.users : [];
+    }
+    return [];
+  } catch (e) {
+    console.error('readUsers error', e);
+    return [];
+  }
+}
+
+// Write users to separate file (private)
+async function writeUsers(users){
+  try {
+    const txt = JSON.stringify({ users }, null, 2);
+    await fs.writeFile(USERS_TMP_FILE, txt, 'utf8');
+    await fs.rename(USERS_TMP_FILE, USERS_FILE);
     return true;
   } catch (e) {
-    console.error('writeData error', e);
+    console.error('writeUsers error', e);
     throw e;
   }
+}
+
+// Legacy support
+async function readData(){
+  const actualites = await readActualites();
+  const users = await readUsers();
+  return { actualites, users };
+}
+
+async function writeData(data){
+  await writeActualites(data.actualites || []);
+  await writeUsers(data.users || []);
+  return true;
 }
 
 function generateId(){ return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2,9)}`; }
@@ -43,38 +110,48 @@ async function hashPassword(password){ const salt = await bcrypt.genSalt(10); re
 
 async function init(){
   try {
-    const exists = await fileExists(DATA_FILE);
-    if (!exists) {
-      const base = { actualites: [], users: [] };
-      const pwd = DEFAULT_PASSWORD;
-      const hashed = await hashPassword(pwd);
-      base.users.push({ id: generateId(), username: 'admin', password: hashed });
-      await writeData(base);
-      console.log('DB init: data.json created with admin user (password from ADMIN_PASSWORD env or default)');
-      return;
+    // Check if we need to migrate from legacy data.json
+    const legacyExists = await fileExists(LEGACY_DATA_FILE);
+    const actualitesExists = await fileExists(ACTUALITES_FILE);
+    const usersExists = await fileExists(USERS_FILE);
+    
+    if (legacyExists && (!actualitesExists || !usersExists)) {
+      // Migrate from legacy format
+      console.log('DB init: migrating from legacy data.json to separate files...');
+      const txt = await fs.readFile(LEGACY_DATA_FILE, 'utf8');
+      const data = txt ? JSON.parse(txt) : { actualites: [], users: [] };
+      await writeActualites(data.actualites || []);
+      await writeUsers(data.users || []);
+      console.log('DB init: migration complete');
     }
-    const data = await readData();
-    if (!data || typeof data !== 'object') {
-      const base = { actualites: [], users: [{ id: generateId(), username: 'admin', password: await hashPassword(DEFAULT_PASSWORD) }] };
-      await writeData(base);
-      console.log('DB init: corrupted data recreated with fresh admin user');
-      return;
-    }
-    if (!Array.isArray(data.users)) data.users = [];
-    if (data.users.length === 0) {
-      data.users.push({ id: generateId(), username: 'admin', password: await hashPassword(DEFAULT_PASSWORD) });
-      await writeData(data);
-      console.log('DB init: added default admin user because users array was empty');
-      return;
-    }
-    let updated = false;
-    for (let u of data.users) {
-      if (u.password && !u.password.startsWith('$2')) {
-        u.password = await hashPassword(u.password);
-        updated = true;
+    
+    // Initialize users file if doesn't exist
+    if (!await fileExists(USERS_FILE)) {
+      const users = [{ id: generateId(), username: 'admin', password: await hashPassword(DEFAULT_PASSWORD) }];
+      await writeUsers(users);
+      console.log('DB init: users.json created with admin user');
+    } else {
+      // Check for legacy passwords and hash them
+      const users = await readUsers();
+      let updated = false;
+      for (let u of users) {
+        if (u.password && !u.password.startsWith('$2')) {
+          u.password = await hashPassword(u.password);
+          updated = true;
+        }
+      }
+      if (updated) {
+        await writeUsers(users);
+        console.log('DB init: hashed legacy plaintext passwords');
       }
     }
-    if (updated) { await writeData(data); console.log('DB init: hashed legacy plaintext passwords'); }
+    
+    // Initialize actualites file if doesn't exist
+    if (!await fileExists(ACTUALITES_FILE)) {
+      await writeActualites([]);
+      console.log('DB init: actualites.json created');
+    }
+    
     console.log('DB init: OK');
   } catch (e) {
     console.error('DB init error', e);
